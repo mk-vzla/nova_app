@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Shift</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <link rel="icon" href="{% static 'imagenes/nova_icono.ico' %}">
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="{% url 'inicio' %}">
+                <img src="{% static 'imagenes/logo_nova_shift_black_background.png' %}" width="80px" alt="">
+            </a>
+            <a class="navbar-brand" href="{% url 'inicio' %}">Nova Shift</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'terror' %}">Terror</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accion' %}">Acción</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mundo_abierto' %}">Mundo Abierto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'free_to_play' %}">Free to Play</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'supervivencia' %}">Supervivencia</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'administrador' %}">
+                            {% include 'includes/database_gear_icon.html' %}
+                        </a>
+                    </li>
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'mis_compras' %}">
+                            {% include 'includes/controller_icon.html' %}
+                        </a>
+                    </li>
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'checkout' %}">
+                            {% include 'includes/cart_icon.html' %}
+                        </a>
+                    </li>
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'perfil' %}">
+                            {% include 'includes/profile_icon.html' %}
+                        </a>
+                    </li>
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'login' %}" class="btn btn-outline-warning">Start</a>
+                    </li>
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'registro' %}" class="btn btn-outline-info">Regístrate</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="background-image"></div>
+    <header>
+        <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
+    </header>
+
+    <div>
+        <h1>¡Bienvenido a Nova Shift!</h1>
+        <p>El sitio donde encontrarás todos tus juegos favoritos</p>
+    </div>
+
+
+
+    <div class="container text-center my-5">
+        <div class="row search_img d-flex flex-column align-items-center">
+            <div class="col-12 mb-2">
+            <input type="text" class="form-control text-center" placeholder="Buscar Juego">
+            </div>
+            <div class="col-12">
+            <button class="btn btn-outline-primary w-auto">GO!</button>
+            </div>
+        </div>
+        <div class="my-5">
+            <h4>Ofertas de la semana</h4>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-6 col-md-4">
+                <br>
+                <div class="card h-100">
+                    <img src="{% static 'imagenes/gow_ragnarok.jpg' %}" class="card-img-top" alt="God of War Ragnarök">
+                    <div class="card-body">
+                        <h5 class="card-title">God of War Ragnarök</h5>
+                        <p class="card-text">Kratos y Atreus luchan contra dioses nórdicos.</p>
+                        <h3>$69.99 -20%</h3>
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <br>
+                <div class="card">
+                    <img src="{% static 'imagenes/subnautica.jpg' %}" class="card-img-top" alt="Subnautica">
+                    <div class="card-body">
+                        <h5 class="card-title">Subnautica</h5>
+                        <p class="card-text">Explora un océano alienígena y sobrevive a criaturas marinas.</p>
+                        <h3>$29.99 -20%</h3>
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <br>
+                <div class="card">
+                    <img src="{% static 'imagenes/resident_village.jpg' %}" class="card-img-top" alt="Resident Evil Village">
+                    <div class="card-body">
+                        <h5 class="card-title">Resident Evil Village</h5>
+                        <p class="card-text">Sobrevive a horrores en un pueblo misterioso.</p>
+                        <h3>$59.99 -20%</h3>
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div>
+            <br>
+            <a href="{% url 'quienes_somos' %}" class="btn btn-outline-success">¿Quiénes somos?</a>
+            <a href="tel:99999999" class="btn btn-outline-success">Contáctanos
+                {% include 'includes/whatsapp_icon.html' %}
+            </a>
+        </div>
+        <br>
+        <div class="social-media d-flex justify-content-center gap-5">
+            <a href="#" onclick="alert('Estás abandonando la página')" class="text-warning">
+                {% include 'includes/facebook_icon.html' %}
+            </a>
+            <a href="#" onclick="alert('Estás abandonando la página')" class="text-warning">
+                {% include 'includes/twitter_icon.html' %}
+            </a>
+            <a href="#" onclick="alert('Estás abandonando la página')" class="text-warning">
+                {% include 'includes/instagram_icon.html' %}
+            </a>
+        </div>
+        <div>
+            <br>
+            <br>
+            <p>© 2025 Nova Shift</p>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+            <script src="{% static 'js/cart_icon.js' %}"></script>
+    </footer>
+</body>
+
+</html>
