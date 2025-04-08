@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import inicio, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios
 
 urlpatterns = [
-    path('inicio', inicio, name='inicio'),
+    path('', inicio, name='inicio'),
     path('accion', accion, name='accion'),
     path('administrador', administrador, name='administrador'),
     path('checkout', checkout, name='checkout'),
