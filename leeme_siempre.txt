@@ -2,3 +2,9 @@ correr servidor:
 python manage.py runserver
 url: 
 http://127.0.0.1:8000/inicio
+
+oracledb
+--BD michaDBora Michael2020 - nombre base de datos de conexion: orclpdb
+CMD: sqlplus michaDBora/MichaMicha2020@localhost:1521/MICHASIDORA (no es XE)
+CMD Iniciar como root: sqlplus / as sysdba
+MichaMicha2020

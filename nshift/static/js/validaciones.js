@@ -14,12 +14,15 @@ form.addEventListener('submit', function (event) {
 
     let valid = true;
 
-    // Nombre completo -- Expresión regular un nombre y un apellido almenos: /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/
+    // Nombre completo -- Expresión regular un nombre y un apellido al menos: /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/
     if (nombre.value.trim() === '') {
         document.getElementById('nombre-error').textContent = 'El nombre es obligatorio.';
         valid = false;
     } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/.test(nombre.value.trim())) {
         document.getElementById('nombre-error').textContent = 'El nombre debe contener al menos un nombre y un apellido.';
+        valid = false;
+    } else if (nombre.value.trim().length > 50) {
+        document.getElementById('nombre-error').textContent = 'El nombre no debe exceder los 50 caracteres.';
         valid = false;
     } else {
         document.getElementById('nombre-error').textContent = '';

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nshift'
+    'nshift',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +77,22 @@ WSGI_APPLICATION = 'novashift.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'novapdb',  # nombre del servicio
+        'USER': 'C##novashiftadmin',
+        'PASSWORD': 'NuevaClave123',
+        'HOST': '127.0.0.1',  
+        'PORT': '1521',
+        'OPTIONS': {
+            'service_name': 'novapdb',  # service_name aquí
+        }
     }
 }
+
+
+
+
+
 
 
 # Password validation
