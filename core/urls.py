@@ -1,6 +1,8 @@
 # filepath: c:\Users\micha\Documentos\DUOCUC\5toBimestre\ProgramacionWEB\semana4\django\novashift\nova_app\core\urls.py
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    # Add your URL patterns here
+    path('registrar/', views.registrar, name='registrar'),
+    # path('login/', views.iniciar_sesion, name='iniciar_sesion'),
 ]

@@ -106,20 +106,33 @@ form.addEventListener('submit', function (event) {
         document.querySelector('.error-message').textContent = '';
     }
 
-    // Si todos los campos son válidos, puedes enviar el formulario o realizar otra acción
+    // Si todos los campos son válidos, puedes enviar el formulario o realizar otra acción (con jquery)
     if (valid) {
+        console.log('Formulario válido. Enviando datos...');
         const usuario = {
-            nombre: nombre.value.trim(),
-            alias: alias.value.trim(),
-            email: email.value.trim(),
-            password: password1.value.trim(),
-            fecha: fecha.value.trim(),
-            descripcion: descripcion.value.trim(),
-            rol: rol.value.trim()
+            nombre_completo: $('#nombre').val().trim(),
+            alias: $('#alias').val().trim(),
+            email: $('#email').val().trim(),
+            password: $('#password1').val().trim(),
+            fecha_nacimiento: $('#fecha').val().trim(),
+            direccion: $('#direccion').val(),
+            rol: $('#rol').val().trim()
         };
-
-        alert('Registro exitoso');
-        form.reset();
+    
+        $.ajax({
+            url: 'core/registrar/',
+            type: 'POST',
+            data: JSON.stringify(usuario),
+            contentType: 'application/json',
+            success: function (response) {
+                alert (response.mensaje);
+                $('#formulario_registro')[0].reset(); // Reinicia el formulario
+            },
+            error: function (xhr){
+                const res = xhr.responseJSON;
+                alert (res?.error || 'Error al registrar el usuario.');
+            }
+        });
     }
 });
 
