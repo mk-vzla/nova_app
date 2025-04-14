@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Rol
+from django.contrib.auth.hashers import check_password
 
 @csrf_exempt
 def registrar(request):
@@ -47,5 +48,28 @@ def registrar(request):
             return JsonResponse({'success': True, 'mensaje': 'Usuario registrado exitosamente.'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+    return JsonResponse({'success': False, 'error': 'Método no permitido.'}, status=405)
+
+@csrf_exempt
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+
+        alias = data.get('alias')
+        password = data.get('password')
+
+        if not alias or not password:
+            return JsonResponse({'success': False, 'error': 'Alias y contraseña son obligatorios.'}, status=400)
+        
+        try:
+            usuario = Usuario.objects.get(alias=alias)
+            # Verificar la contraseña usando check_password
+            if check_password(password, usuario.password):
+                return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
+            else:
+                return JsonResponse({'success': False, 'error': 'Contraseña incorrecta.'}, status=401)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'El alias no existe.'}, status=404)
     
     return JsonResponse({'success': False, 'error': 'Método no permitido.'}, status=405)
