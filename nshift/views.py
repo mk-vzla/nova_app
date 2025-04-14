@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 # index, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios
 
 def inicio(request):
-    return render(request, 'index.html')
+    conectado_alias = request.session.get('conectado_alias', None)  # Asegúrate de usar 'conectado_alias'
+    conectado_rol_id = request.session.get('conectado_rol_id', None)  # Asegúrate de usar 'conectado_rol_id'
+    return render(request, 'index.html', {'conectado_alias': conectado_alias, 'conectado_rol_id': conectado_rol_id})
 
 def accion (request):
     return render(request, 'accion.html')
@@ -51,3 +53,6 @@ def terror(request):
 def usuarios(request):
     return render(request, 'usuarios.html')
 
+def desconectarse(request):
+    request.session.flush()  # Elimina todos los datos de la sesión
+    return redirect('inicio')  # Redirige a la página de inicio o a donde desees

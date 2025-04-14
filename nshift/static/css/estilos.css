@@ -168,3 +168,11 @@ button:hover, .btn:hover {
     box-shadow: 0 0 15px #6a0dad, 0 0 30px #6a0dad; /* Efecto de neón */
     transition: all 0.3s ease-in-out; /* Suaviza la transición */
 }
+
+h5 {
+    color: rgb(250, 47, 67); 
+    font-weight: bold; 
+    text-align: center; 
+    font-size: 0.8rem; /* Fuente muy pequeña */
+    margin-top: 5px; /* Espaciado para que quede debajo del ícono */
+}

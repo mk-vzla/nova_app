@@ -66,6 +66,10 @@ def iniciar_sesion(request):
             usuario = Usuario.objects.get(alias=alias)
             # Verificar la contraseña usando check_password
             if check_password(password, usuario.password):
+                # Guardar Alias de la sesión y su rol_id
+                request.session['conectado_alias'] = usuario.alias
+                request.session['conectado_rol_id'] = usuario.rol.identificador
+
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
                 return JsonResponse({'success': False, 'error': 'Contraseña incorrecta.'}, status=401)

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import inicio, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios
+from .views import inicio, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios, desconectarse
 
 urlpatterns = [
     path('', inicio, name='inicio'),
@@ -18,5 +18,7 @@ urlpatterns = [
     path('supervivencia', supervivencia, name='supervivencia'),
     path('terror', terror, name='terror'),
     path('usuarios', usuarios, name='usuarios'),
+    path('desconectarse', desconectarse, name='desconectarse'),
+    
 ]
 
