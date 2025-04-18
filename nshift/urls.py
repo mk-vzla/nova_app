@@ -17,8 +17,7 @@ urlpatterns = [
     path('registro', registro, name='registro'),
     path('supervivencia', supervivencia, name='supervivencia'),
     path('terror', terror, name='terror'),
-    # path('usuarios', usuarios, name='usuarios'),
+    path('usuarios', listar_usuarios, name='listar_usuarios'),
     path('desconectarse', desconectarse, name='desconectarse'),
-    path('usuarios/', listar_usuarios, name='listar_usuarios'),    
 ]
 
