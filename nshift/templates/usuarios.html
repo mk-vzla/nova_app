@@ -90,139 +90,43 @@
         <h4>Administración</h4>
         <h3>Consulta Usuarios</h3>
     </header>
+    {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
 
     <main class="container my-5">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
+                        <th>Correo Electrónico</th>
                         <th>Nombre Completo</th>
                         <th>Alias</th>
-                        <th>Correo Electrónico</th>
-                        <th>Contraseña</th>
-                        <th>Fecha de Nacimiento</th>
-                        <th>Dirección de Despacho</th>
                         <th>Rol</th>
-                        <th>Cantidad Compras</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for usuario in usuarios %}
                     <tr>
-                        <td>1</td>
-                        <td>Juan Pérez</td>
-                        <td>juanito22</td>
-                        <td>juan.perez@email.com</td>
-                        <td>********</td>
-                        <td>15-05-1990</td>
-                        <td>Calle Falsa 123, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>15</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.nombre_completo }}</td>
+                        <td>{{ usuario.alias }}</td>
+                        <td>{{ usuario.rol.nombre }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Editar</button>
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </td>
                     </tr>
+                    {% empty %}
                     <tr>
-                        <td>2</td>
-                        <td>María González</td>
-                        <td>maria_g</td>
-                        <td>maria.gonzalez@email.com</td>
-                        <td>********</td>
-                        <td>02-11-1985</td>
-                        <td>Av. del Sol 456, Zona 3, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>8</td>
+                        <td colspan="5" class="text-center">No hay usuarios registrados.</td>
                     </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Carlos Rodríguez</td>
-                        <td>carlosr</td>
-                        <td>carlos.rodriguez@novashift.com</td>
-                        <td>********</td>
-                        <td>20-07-1992</td>
-                        <td>Calle Luna 789, Barrio Azul, Ciudad, País</td>
-                        <td>Admin</td>
-                        <td>120</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Ana Torres</td>
-                        <td>anatorres</td>
-                        <td>ana.torres@email.com</td>
-                        <td>********</td>
-                        <td>12-03-1995</td>
-                        <td>Plaza Mayor 45, Edificio 2, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Luis Martínez</td>
-                        <td>luismart</td>
-                        <td>luis.martinez@novashift.com</td>
-                        <td>********</td>
-                        <td>30-09-1988</td>
-                        <td>Calle Central 101, Piso 3, Ciudad, País</td>
-                        <td>Admin</td>
-                        <td>200</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Isabel Fernández</td>
-                        <td>isaf1987</td>
-                        <td>isabel.fernandez@email.com</td>
-                        <td>********</td>
-                        <td>10-02-1987</td>
-                        <td>Av. Libertad 100, Sector 4, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>30</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Jorge Gómez</td>
-                        <td>jgomez_89</td>
-                        <td>jorge.gomez@email.com</td>
-                        <td>********</td>
-                        <td>25-08-1989</td>
-                        <td>Calle del Sol 60, Residencial 1, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Patricia Díaz</td>
-                        <td>pattydiaz</td>
-                        <td>patricia.diaz@email.com</td>
-                        <td>********</td>
-                        <td>17-04-1993</td>
-                        <td>Calle Rojas 220, Villa Nueva, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>Roberto Sánchez</td>
-                        <td>robertsan</td>
-                        <td>roberto.sanchez@novashift.com</td>
-                        <td>********</td>
-                        <td>22-06-1983</td>
-                        <td>Avenida 15 de Mayo 112, Zona 8, Ciudad, País</td>
-                        <td>Admin</td>
-                        <td>300</td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Elena López</td>
-                        <td>elenalope</td>
-                        <td>elena.lopez@email.com</td>
-                        <td>********</td>
-                        <td>10-01-1996</td>
-                        <td>Calle Primavera 54, Torre 4, Ciudad, País</td>
-                        <td>Cliente</td>
-                        <td>7</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </main>
 
+    {% endif %}
     <footer>
         <div>
             <br>

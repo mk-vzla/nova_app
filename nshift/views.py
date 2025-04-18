@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from core.models import Usuario  # Import the Usuario model
 
 # Create your views here.
 # index, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios
@@ -56,3 +57,8 @@ def usuarios(request):
 def desconectarse(request):
     request.session.flush()  # Elimina todos los datos de la sesión
     return redirect('inicio')  # Redirige a la página de inicio o a donde desees
+
+# Una función para listar todos los usuarios
+def listar_usuarios(request):
+    usuarios = Usuario.objects.select_related('rol')  # Carga el rol asociado
+    return render(request, 'usuarios.html', {'usuarios': usuarios})

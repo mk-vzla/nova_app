@@ -8,6 +8,7 @@ oracledb
 CMD: Iniciar como el usuario novashiftadmin: sqlplus C##novashiftadmin/NuevaClave123@localhost:1521/novapdb (no es XE)
 CMD: Iniciar como root: sqlplus / as sysdba
 --BD PW: MichaMicha2020
+-- New?: pip install oracledb
 
 
 aplicar cambios modelo BD:

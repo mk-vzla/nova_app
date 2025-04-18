@@ -2,6 +2,11 @@ const form = document.getElementById('formulario_login');
 const alias = document.getElementById('alias');
 const password = document.getElementById('password');
 
+// Automatically focus on the Alias input field when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    alias.focus();
+});
+
 form.addEventListener('submit', function (event) {
     event.preventDefault(); // Evita el envío del formulario por defecto
 
