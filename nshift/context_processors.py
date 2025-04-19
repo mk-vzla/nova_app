@@ -7,4 +7,5 @@ def session_data(request):
         'conectado_rol_id': request.session.get('conectado_rol_id', None),
         'conectado_nombre_completo': request.session.get('conectado_nombre_completo', None),
         'conectado_direccion': request.session.get('conectado_direccion', None),
+        'conectado_password': request.session.get('conectado_password', None),
     }

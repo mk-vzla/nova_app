@@ -9,6 +9,11 @@ const fecha = document.getElementById('fecha');
 const descripcion = document.getElementById('direccion');
 const rol = document.getElementById('rol');
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    nombre.focus();
+});
+
 form.addEventListener('submit', function (event) {
     event.preventDefault(); // Evita el envío del formulario por defecto
 
@@ -125,12 +130,13 @@ form.addEventListener('submit', function (event) {
             data: JSON.stringify(usuario),
             contentType: 'application/json',
             success: function (response) {
-                alert (response.mensaje);
-                $('#formulario_registro')[0].reset(); // Reinicia el formulario
+            alert(response.mensaje);
+            $('#formulario_registro')[0].reset(); // Reinicia el formulario
+            window.location.href = 'login'; // Redirige a la página de iniciar sesión
             },
-            error: function (xhr){
-                const res = xhr.responseJSON;
-                alert (res?.error || 'Error al registrar el usuario.');
+            error: function (xhr) {
+            const res = xhr.responseJSON;
+            alert(res?.error || 'Error al registrar el usuario.');
             }
         });
     }

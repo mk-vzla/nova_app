@@ -98,18 +98,19 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Correo Electrónico</th>
-                        <th>Nombre Completo</th>
                         <th>Alias</th>
+                        <th>Nombre Completo</th>
                         <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for usuario in usuarios %}
+                    {% if conectado_rol_id == 3 %}
                     <tr>
                         <td>{{ usuario.email }}</td>
-                        <td>{{ usuario.nombre_completo }}</td>
                         <td>{{ usuario.alias }}</td>
+                        <td>{{ usuario.nombre_completo }}</td>
                         <td>{{ usuario.rol.nombre }}</td>
                         <td>
                         <button 
@@ -122,7 +123,7 @@
                         data-fecha="{{ usuario.fecha_nacimiento|date:'Y-m-d' }}"
                         data-direccion="{{ usuario.direccion }}"
                         data-rol="{{ usuario.rol.identificador }}">
-                        Editar
+                        Ver/Editar
                         </button>
                         <button 
                         class="btn btn-sm btn-danger btn-eliminar"
@@ -131,6 +132,7 @@
                         </button>
                         </td>
                     </tr>
+                    {% endif %}
                     {% empty %}
                     <tr>
                         <td colspan="5" class="text-center">No hay usuarios registrados.</td>
@@ -157,13 +159,13 @@
     <div class="modal-dialog card">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
+                <h5 class="modal-title" id="modalEditarUsuarioLabel">Ver o Editar Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
                 <form id="form_editar_usuario">
                     <div class="mb-3">
-                        <label for="editar_email" class="form-label">Correo Electrónico</label>
+                        <label for="editar_email" class="form-label">Correo Electrónico (No modificable)</label>
                         <input type="email" class="form-control text-secondary" id="editar_email" readonly>
                     </div>
                     <div class="mb-3">

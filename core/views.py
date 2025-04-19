@@ -71,6 +71,7 @@ def iniciar_sesion(request):
                 request.session['conectado_rol_id'] = int(usuario.rol.identificador)
                 request.session['conectado_nombre_completo'] = usuario.nombre_completo
                 request.session['conectado_direccion'] = usuario.direccion
+                request.session['conectado_password'] = data.get('password')
 
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
@@ -131,3 +132,36 @@ def eliminar_usuario(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+
+@csrf_exempt
+def modificar_perfil(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            # Obtener el alias del usuario conectado desde la sesión
+            alias = request.session.get('conectado_alias')
+            if not alias:
+                return JsonResponse({'error': 'Usuario no autenticado.'}, status=401)
+
+            # Buscar el usuario por alias
+            usuario = Usuario.objects.get(alias=alias)
+
+            # Actualizar los campos del usuario
+            usuario.nombre_completo = data.get('nombre', usuario.nombre_completo)
+            usuario.direccion = data.get('direccion', usuario.direccion)
+
+            # Validar y actualizar la contraseña
+            password1 = data.get('password1')
+            password2 = data.get('password2')
+            if password1 and password1 == password2:
+                usuario.password = make_password(password1)
+
+            usuario.save()
+            return JsonResponse({'mensaje': 'Perfil actualizado correctamente.'})
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)

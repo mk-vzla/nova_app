@@ -2,7 +2,7 @@ const form = document.getElementById('formulario_login');
 const alias = document.getElementById('alias');
 const password = document.getElementById('password');
 
-// Automatically focus on the Alias input field when the page loads
+// Comenzar en el primer campo.
 document.addEventListener('DOMContentLoaded', function () {
     alias.focus();
 });

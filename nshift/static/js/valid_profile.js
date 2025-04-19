@@ -1,79 +1,90 @@
 const form = document.getElementById('formulario_modificar_perfil');
 
 const nombre = document.getElementById('nombre');
-const alias = document.getElementById('alias');
 const password1 = document.getElementById('password1');
 const password2 = document.getElementById('password2');
 const direccion = document.getElementById('direccion');
 
-form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+$(document).ready(function () {
+    $('#formulario_modificar_perfil').on('submit', function (event) {
+        event.preventDefault(); // Evita el envío por defecto
 
-    let valid = true;
+        let valid = true;
 
-    // Validación de Nombre Completo
-    if (nombre.value.trim() === '') {
-        document.getElementById('nombre-error').textContent = 'El nombre es obligatorio.';
-        valid = false;
-    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/.test(nombre.value.trim())) {
-        document.getElementById('nombre-error').textContent = 'El nombre debe contener al menos un nombre y un apellido.';
-        valid = false;
-    } else {
-        document.getElementById('nombre-error').textContent = '';
-    }
+        // Validación de Nombre Completo
+        const nombre = $('#nombre').val().trim();
+        if (nombre === '') {
+            $('#nombre-error').text('El nombre es obligatorio.');
+            valid = false;
+        } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+(\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/.test(nombre)) {
+            $('#nombre-error').text('El nombre debe contener al menos un nombre y un apellido.');
+            valid = false;
+        } else {
+            $('#nombre-error').text('');
+        }
 
-    // Validación de Alias
-    /*
-    if (alias.value.trim() === '') {
-        document.getElementById('alias-error').textContent = 'El alias es obligatorio.';
-        valid = false;
-    } else {
-        document.getElementById('alias-error').textContent = '';
-    }
-    */
+        // Validación de Contraseña
+        const password1 = $('#password1').val().trim();
+        const password2 = $('#password2').val().trim();
+        if (password1 === '') {
+            $('#password1-error').text('La contraseña es obligatoria.');
+            valid = false;
+        } else if (password1.length < 6 || password1.length > 18) {
+            $('#password1-error').text('La contraseña debe tener entre 6 y 18 caracteres.');
+            valid = false;
+        } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])\S+$/.test(password1)) {
+            $('#password1-error').text('La contraseña debe contener al menos una letra mayúscula, una minúscula y un número.');
+            valid = false;
+        } else {
+            $('#password1-error').text('');
+        }
 
-    // Validación de Contraseña
-    if (password1.value.trim() === '') {
-        document.getElementById('password1-error').textContent = 'La contraseña es obligatoria.';
-        valid = false;
-    } else if (password1.value.trim().length < 6 || password1.value.trim().length > 18) {
-        document.getElementById('password1-error').textContent = 'La contraseña debe tener entre 6 y 18 caracteres.';
-        valid = false;
-    } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])\S+$/.test(password1.value.trim())) {
-        document.getElementById('password1-error').textContent = 'La contraseña debe contener al menos una letra mayúscula, una minúscula y un número.';
-        valid = false;
-    } else {
-        document.getElementById('password1-error').textContent = '';
-    }
+        if (password2 === '') {
+            $('#password2-error').text('Por favor confirma tu contraseña.');
+            valid = false;
+        } else if (password2 !== password1) {
+            $('#password2-error').text('Las contraseñas no coinciden.');
+            valid = false;
+        } else {
+            $('#password2-error').text('');
+        }
 
-    if (password2.value.trim() === '') {
-        document.getElementById('password2-error').textContent = 'Por favor confirma tu contraseña.';
-        valid = false;
-    } else if (password2.value !== password1.value) {
-        document.getElementById('password2-error').textContent = 'Las contraseñas no coinciden.';
-        valid = false;
-    } else {
-        document.getElementById('password2-error').textContent = '';
-    }
+       
+        // Validación de Dirección de Despacho
+        let direccion = $('#direccion').val().trim();
+        if (direccion === '') {
+            $('#direccion-error').text('');
+            direccion = null; // Enviar null si la dirección no se llena
+        } else {
+            $('#direccion-error').text('');
+        }
 
-    // Validación de Dirección de Despacho
-    if (direccion.value.trim() === '') {
-        document.getElementById('direccion-error').textContent = 'La dirección de despacho es obligatoria.';
-        valid = false;
-    } else {
-        document.getElementById('direccion-error').textContent = '';
-    }
 
-    // Si todos los campos son válidos, realizar acción
-    if (valid) {
-        alert('Perfil actualizado exitosamente.');
-        form.reset(); // Reinicia el formulario
-    }
+        // Si todo es válido, enviar los datos al servidor
+        if (valid) {
+            const datos = {
+                nombre: nombre,
+                password1: password1,
+                password2: password2,
+                direccion: direccion,
+            };
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val(),
+                },
+                contentType: 'application/json',
+                data: JSON.stringify(datos),
+                success: function (response) {
+                    alert(response.mensaje);
+                    location.reload(); // Recarga la página al finalizar
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.error || 'Ocurrió un error.');
+                },
+            });
+        }
+    });
 });
-
-const limpiarButton = document.getElementById('limpiar');
-limpiarButton.addEventListener('click', function () {
-    form.reset(); // Reinicia el formulario
-    document.querySelectorAll('.text-danger').forEach(error => error.textContent = ''); // Limpia los mensajes de error
-});
-
