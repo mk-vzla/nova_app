@@ -23,12 +23,14 @@ form.addEventListener('submit', function (event) {
     }
 
     // Validación de Alias
+    /*
     if (alias.value.trim() === '') {
         document.getElementById('alias-error').textContent = 'El alias es obligatorio.';
         valid = false;
     } else {
         document.getElementById('alias-error').textContent = '';
     }
+    */
 
     // Validación de Contraseña
     if (password1.value.trim() === '') {

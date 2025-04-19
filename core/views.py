@@ -66,9 +66,9 @@ def iniciar_sesion(request):
             usuario = Usuario.objects.get(alias=alias)
             # Verificar la contraseña usando check_password
             if check_password(password, usuario.password):
-                # Guardar Alias de la sesión y su rol_id
+                # Guardar Alias de la sesión y su rol_id, forzando conectado_rol_id a int
                 request.session['conectado_alias'] = usuario.alias
-                request.session['conectado_rol_id'] = usuario.rol.identificador
+                request.session['conectado_rol_id'] = int(usuario.rol.identificador)
 
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
@@ -77,3 +77,55 @@ def iniciar_sesion(request):
             return JsonResponse({'success': False, 'error': 'El alias no existe.'}, status=404)
     
     return JsonResponse({'success': False, 'error': 'Método no permitido.'}, status=405)
+
+
+
+@csrf_exempt
+def editar_usuario(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            email = data.get('email')
+            usuario = Usuario.objects.get(email=email)
+
+            usuario.nombre_completo = data.get('nombre_completo')
+            usuario.alias = data.get('alias')
+            usuario.fecha_nacimiento = data.get('fecha_nacimiento')
+            usuario.direccion = data.get('direccion')
+
+            rol_id = data.get('rol')
+            rol = Rol.objects.get(identificador=rol_id)
+            usuario.rol = rol
+
+            usuario.save()
+
+            return JsonResponse({'mensaje': 'Usuario actualizado correctamente.'})
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
+        except Rol.DoesNotExist:
+            return JsonResponse({'error': 'Rol no válido.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+
+@csrf_exempt
+def eliminar_usuario(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            # Buscar y eliminar al usuario
+            usuario = Usuario.objects.get(email=email)
+            usuario.delete()
+
+            return JsonResponse({'mensaje': 'Usuario eliminado correctamente.'})
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
