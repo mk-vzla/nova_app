@@ -7,7 +7,9 @@ from core.models import Usuario  # Import the Usuario model
 def inicio(request):
     conectado_alias = request.session.get('conectado_alias', None)  # Asegúrate de usar 'conectado_alias'
     conectado_rol_id = request.session.get('conectado_rol_id', None)  # Asegúrate de usar 'conectado_rol_id'
-    return render(request, 'index.html', {'conectado_alias': conectado_alias, 'conectado_rol_id': conectado_rol_id})
+    conectado_nombre_completo = request.session.get('conectado_nombre_completo', None)  # Asegúrate de usar 'conectado_nombre_completo'
+    conectado_direccion = request.session.get('conectado_direccion', None)  # Asegúrate de usar 'conectado_direccion'
+    return render(request, 'index.html', {'conectado_alias': conectado_alias, 'conectado_rol_id': conectado_rol_id, 'conectado_nombre_completo': conectado_nombre_completo, 'conectado_direccion': conectado_direccion})
 
 def accion (request):
     return render(request, 'accion.html')
@@ -62,3 +64,4 @@ def desconectarse(request):
 def listar_usuarios(request):
     usuarios = Usuario.objects.select_related('rol')  # Carga el rol asociado
     return render(request, 'usuarios.html', {'usuarios': usuarios})
+

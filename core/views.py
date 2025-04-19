@@ -69,6 +69,8 @@ def iniciar_sesion(request):
                 # Guardar Alias de la sesión y su rol_id, forzando conectado_rol_id a int
                 request.session['conectado_alias'] = usuario.alias
                 request.session['conectado_rol_id'] = int(usuario.rol.identificador)
+                request.session['conectado_nombre_completo'] = usuario.nombre_completo
+                request.session['conectado_direccion'] = usuario.direccion
 
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
