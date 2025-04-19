@@ -1,0 +1,48 @@
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel"
+    aria-hidden="true">
+    <div class="modal-dialog card">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarUsuarioLabel">Ver o Editar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form_editar_usuario">
+                    <div class="mb-3">
+                        <label for="editar_email" class="form-label">Correo Electrónico (No modificable)</label>
+                        <input type="email" class="form-control text-secondary" id="editar_email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_nombre" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="editar_nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_alias" class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="editar_alias">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_fecha" class="form-label">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="editar_fecha">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_direccion" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="editar_direccion" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_rol" class="form-label">Rol</label>
+                        <select class="form-select" id="editar_rol">
+                            <option value="1">Administrador</option>
+                            <option value="2">Jugador</option>
+                            {% if conectado_rol_id == 3 %}
+                            <option value="3">DESARROLLADOR</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

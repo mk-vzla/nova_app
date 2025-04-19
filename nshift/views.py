@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from core.models import Usuario  # Import the Usuario model
+from django.db import connection
 
 # Create your views here.
 # index, accion, administrador, checkout, free_to_play, inventario, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, usuarios

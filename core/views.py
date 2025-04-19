@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from .models import Usuario, Rol
 from django.contrib.auth.hashers import check_password
 
+
 @csrf_exempt
 def registrar(request):
     if request.method == 'POST':

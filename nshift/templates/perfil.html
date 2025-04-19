@@ -104,8 +104,8 @@
                     <div class="card-body">
                         <form id="formulario_modificar_perfil" action="{% url 'modificar_perfil' %}" method="post">
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                            <div>
-                                <h4>{{ conectado_alias }}</h6>
+                            <div class="p-1 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-1">
+                                {{ conectado_alias }}
                             </div>
                             <!-- <div class="mb-3">               -------------------------------NO SE PODRÁ MODIFICAR EL ALIAS, SOLO ADMIN
                                 <label class="form-label" for="">Alias</label>
@@ -114,7 +114,7 @@
                                 <small class="text-danger" id="alias-error"></small>
                             </div> -->
                             <div class="mb-3">
-                                <label class="form-label" for="">Nombre Completo</label>
+                                <label class="form-label" for="">Cambiar Nombre Completo</label>
                                 <input type="text" class="form-control text-center" name="nombre" id="nombre"
                                     placeholder="Ej: Juan Pérez" value="{{ conectado_nombre_completo }}">
                                 <small class="text-danger" id="nombre-error"></small>
@@ -139,9 +139,6 @@
                             </div>
                             <div class="d-grid">
                                 <button class="btn btn-outline-info" type="submit">Aplicar Cambios</button>
-                            </div>
-                            <div class="d-grid">
-                                <h5>(Los cambios se verán aplicados en esta sección, reiniciar sesión)</h5>
                             </div>
                         </form>
                     </div>
