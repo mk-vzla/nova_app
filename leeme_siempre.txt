@@ -21,3 +21,4 @@ Eliminar todas las migraciones anteriores:     rm core/migrations/000*.py
 Reiniciar todo:                                python manage.py migrate --fake core zero
 Preparar migrations core:                      python manage.py makemigrations core
 Migrar core:                                   python manage.py migrate core
+python manage.py makemigrations       //       python manage.py migrate    //  

@@ -28,6 +28,15 @@ INSERT INTO core_categoria (nombre_categoria) VALUES ('Mundo Abierto');
 INSERT INTO core_categoria (nombre_categoria) VALUES ('Free To Play');
 INSERT INTO core_categoria (nombre_categoria) VALUES ('Supervivencia');
 commit;
+-- Población de tabla plataforma
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Steam');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Epic Games');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Origin');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Battle.net');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('PSN');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Xbox');
+INSERT INTO core_plataforma (nombre_plataforma) VALUES ('Nintendo');
+commit;
 -------------------------------------------------------------
 --Query consulta de usuarios
 SELECT * FROM core_usuario usu JOIN core_rol rol ON usu.rol_id = rol.identificador;
@@ -35,7 +44,7 @@ SELECT * FROM core_usuario usu JOIN core_rol rol ON usu.rol_id = rol.identificad
 
 
 
-------------------------------------------------------------- Eliminación de tablas
+------------------------------------------------------------- Eliminación de tablas y todo
 -- Primero eliminamos las tablas que dependen de otras
 DROP TABLE CORE_COMPRA CASCADE CONSTRAINTS;
 DROP TABLE CORE_CARRITO CASCADE CONSTRAINTS;
@@ -51,4 +60,12 @@ DROP TABLE CORE_ROL CASCADE CONSTRAINTS;
 
 -- Eliminar las migraciones de Django
 DROP TABLE django_migrations CASCADE CONSTRAINTS;
+commit;
+-- Eliminar las tablas de Django
+BEGIN
+  FOR t IN (SELECT table_name FROM user_tables) LOOP
+    EXECUTE IMMEDIATE 'DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS';
+  END LOOP;
+END;
+/
 commit;

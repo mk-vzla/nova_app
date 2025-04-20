@@ -102,17 +102,33 @@
                 <div class="card">
                     <div class="card-body">
                         <form id="formulario_añadir_producto">
-                            <div class="mb-3">
-                                <label for="categoria" class="form-label"></label>
-                                <select class="form-select" id="categoria" name="categoria">
-                                    <option value="">Selecciona una categoría</option>
-                                    <option value="Terror">Terror</option>
-                                    <option value="Acción">Acción</option>
-                                    <option value="Mundo Abierto">Mundo Abierto</option>
-                                    <option value="Free to Play">Free to Play</option>
-                                    <option value="Supervivencia">Supervivencia</option>
-                                </select>
-                                <small id="categoria_error" class="text-danger"></small>
+                            <div class="mb-3 d-flex justify-content-between">
+                                <div class="me-2 w-50">
+                                    <label for="categoria" class="form-label"></label>
+                                    <select class="form-select" id="categoria" name="categoria">
+                                        <option value="">Selecciona una categoría</option>
+                                        <option value="1">Terror</option>
+                                        <option value="2">Acción</option>
+                                        <option value="3">Mundo Abierto</option>
+                                        <option value="4">Free to Play</option>
+                                        <option value="5">Supervivencia</option>
+                                    </select>
+                                    <small id="categoria_error" class="text-danger"></small>
+                                </div>
+                                <div class="w-50">
+                                    <label for="plataforma" class="form-label"></label>
+                                    <select class="form-select" id="plataforma" name="plataforma">
+                                        <option value="">Selecciona una plataforma</option>
+                                        <option value="1">Steam</option>
+                                        <option value="2">Epic Games</option>
+                                        <option value="3">Origin</option>
+                                        <option value="4">Battle.net</option>
+                                        <option value="5">PSN</option>
+                                        <option value="6">Xbox</option>
+                                        <option value="7">Nintendo</option>
+                                    </select>
+                                    <small id="plataforma_error" class="text-danger"></small>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="nombre" name="nombre"
@@ -120,7 +136,7 @@
                                 <small id="nombre_error" class="text-danger"></small>
                             </div>
                             <div class="mb-3">
-                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="2"
                                     placeholder="Descripción del producto"></textarea>
                                 <small id="descripcion_error" class="text-danger"></small>
                             </div>
@@ -180,7 +196,7 @@
                             </div>
                             <div class="mb-3">
                                 <textarea class="form-control" id="descripcion_modificar" name="descripcion_modificar"
-                                    rows="3" placeholder="Nueva descripción del producto"></textarea>
+                                    rows="2" placeholder="Nueva descripción del producto"></textarea>
                                 <small id="descripcion_modificar_error" class="text-danger"></small>
                             </div>
                             <div class="mb-3">

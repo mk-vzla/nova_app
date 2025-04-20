@@ -37,6 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('categoria_error').textContent = '';
         }
 
+        // Validar plataforma
+        if (plataforma.value.trim() === '') {
+            document.getElementById('plataforma_error').textContent = 'La plataforma es obligatoria.';
+            valid = false;
+        } else {
+            document.getElementById('plataforma_error').textContent = '';
+        }
+
         // Validar nombre
         if (nombre.value.trim() === '') {
             document.getElementById('nombre_error').textContent = 'El nombre es obligatorio.';

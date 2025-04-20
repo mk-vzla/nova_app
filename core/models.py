@@ -28,7 +28,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre_categoria
 
-# Tabbla plataforma: id_plataforma, nombre_plataforma. Steam, Epic Games, Origin, Battle.net.
+# Tabbla plataforma: id_plataforma, nombre_plataforma. Steam, Epic Games, Origin, Battle.net, PSN, Xbox.
 class Plataforma(models.Model):
     id_plataforma = models.AutoField(primary_key=True)  # Primary Key
     nombre_plataforma = models.CharField(max_length=50, unique=True)
