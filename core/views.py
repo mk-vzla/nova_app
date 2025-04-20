@@ -327,7 +327,7 @@ def enviar_correo_recuperacion(request):
                 try:
                     response = requests.post(url, headers=headers, data=json.dumps(payload))
                     response.raise_for_status()
-                    print("Correo enviado exitosamente a través de Mailtrap!")
+                    print("- - - - - - - - Correo enviado exitosamente a través de Mailtrap! - - - - - - - - ")
                     return JsonResponse({'mensaje': 'Correo de recuperación enviado exitosamente.'}, status=200)
                 except requests.exceptions.RequestException as e:
                     return JsonResponse({'error': f'Error al enviar el correo: {str(e)}'}, status=500)
