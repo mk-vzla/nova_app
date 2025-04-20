@@ -1,10 +1,11 @@
 from django.shortcuts import render
-import json
+import json, requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Rol, Categoria, Plataforma, Juego
 from django.contrib.auth.hashers import check_password
+from .contra_aleatoria import generar_contraseña_aleatoria
 
 
 @csrf_exempt
@@ -176,7 +177,7 @@ def agregar_producto(request):
             print("Datos recibidos:", data)
 
             # Validación de campos obligatorios
-            campos_obligatorios = ['categoria', 'plataforma', 'nombre', 'descripcion', 'cantidad', 'precio', 'imagen']
+            campos_obligatorios = ['categoria', 'plataforma', 'nombre', 'descripcion', 'cantidad', 'precio']
             for campo in campos_obligatorios:
                 if campo not in data:
                     return JsonResponse({'error': f'El campo {campo} es obligatorio.'}, status=400)
@@ -268,4 +269,73 @@ def modificar_producto(request):
             return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+############################################################################################ ENVÍO DE MAILTRAP
+
+@csrf_exempt
+def enviar_correo_recuperacion(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            if not email:
+                return JsonResponse({'error': 'El campo email es obligatorio.'}, status=400)
+
+            if Usuario.objects.filter(email=email).exists():
+                import random, string
+                # Generar una nueva contraseña aleatoria
+                usuario = Usuario.objects.get(email=email)
+
+                # Enviar correo con Mailtrap
+                api_token = "6bf88bf3c945c740b7bf0d2cea4433c6"
+                mailtrap_id = "3630156"
+                from_email = "password@novashift.com"
+                from_name = "Nova Shift"
+                subject = "Recuperación de Contraseña"
+                password = generar_contraseña_aleatoria()
+                # Actualizar la contraseña del usuario en la base de datos
+                usuario.password = make_password(password)
+                usuario.save()
+                # body_text = "Se ha solicitado un cambio de contraseña. Si no has solicitado este cambio, ignora este mensaje."
+                body_html = f"""
+                <html>
+                <body>
+                    <p>Se ha solicitado un cambio de contraseña. Si no has solicitado este cambio, ignora este mensaje.</p>
+                    <p>Tu contraseña es: <strong>{password}</strong></p>
+                    <p>Puedes iniciar sesión en <a href="http://127.0.0.1:8000/login">Nova Shift</a>.</p>
+                    <p>Saludos,<br>Equipo Nova Shift</p>
+                </body>
+                </html>
+                """
+                url = f"https://sandbox.api.mailtrap.io/api/send/{mailtrap_id}"
+                headers = {
+                    "Authorization": f"Bearer {api_token}",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "from": {"email": from_email, "name": from_name},
+                    "to": [{"email": email}],
+                    "subject": subject,
+                    #"text": body_text,
+                    "html": body_html,
+                    "category": "Recuperación"
+                }
+
+                try:
+                    response = requests.post(url, headers=headers, data=json.dumps(payload))
+                    response.raise_for_status()
+                    print("Correo enviado exitosamente a través de Mailtrap!")
+                    return JsonResponse({'mensaje': 'Correo de recuperación enviado exitosamente.'}, status=200)
+                except requests.exceptions.RequestException as e:
+                    return JsonResponse({'error': f'Error al enviar el correo: {str(e)}'}, status=500)
+
+            else:
+                return JsonResponse({'error': 'El correo no está registrado.'}, status=404)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
     return JsonResponse({'error': 'Método no permitido.'}, status=405)

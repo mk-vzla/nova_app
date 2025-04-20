@@ -2,23 +2,36 @@ const form = document.getElementById('formulario_recupera');
 const email = document.getElementById('email');
 
 form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+    event.preventDefault();
 
     let valid = true;
 
     if (email.value.trim() === '') {
-        document.getElementById('email-error').textContent = 'El correo electrónico es obligatorio.';
-        valid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-        document.getElementById('email-error').textContent = 'El correo electrónico no es válido.';
+        $('#email-error').text('El correo es obligatorio.');
         valid = false;
     } else {
-        document.getElementById('email-error').textContent = '';
+        $('#email-error').text('');
     }
 
-    // Si todos los campos son válidos, redirige a login.html
     if (valid) {
-        alert('Correo de recuperación enviado correctamente.');
-        window.location.href = 'login'; // Redirige a la página de iniciar sesión
+        const datos = {
+            email: email.value.trim()
+        };
+
+        $.ajax({
+            url: 'core/recuperar_contra/',  // O la ruta que uses para `enviar_correo_recuperacion`
+            type: 'POST',
+            data: JSON.stringify(datos),
+            contentType: 'application/json',
+            success: function (response) {
+                alert(response.mensaje || 'Correo enviado.');
+                window.location.href = 'login';
+            },
+            error: function (xhr) {
+                const res = xhr.responseJSON;
+                alert(res?.error || 'Error al enviar el correo.');
+            }
+        });
     }
 });
+

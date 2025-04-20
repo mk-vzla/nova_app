@@ -59,10 +59,13 @@ def send_mailtrap_message(to_email):
 if __name__ == "__main__":
     email = "michaelvzla.cl@gmail.com"  # Ejemplo de email
     result = send_mailtrap_message(email)
-    # Puedes procesar el resultado si es necesario
     if result:
         print(f"Mailtrap Response Status Code: {result.status_code}")
+        if result.status_code == 200:
+            print("El correo fue enviado correctamente a:", email)
 
+
+# Mailtrap: https://mailtrap.io/home
 # TOken: 
 # Name: mailtrap01
 # Created By:Michael González
