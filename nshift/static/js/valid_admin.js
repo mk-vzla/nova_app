@@ -193,8 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Validar cantidad
-        if (cantidadModificar.value.trim() === '' || cantidadModificar.value <= 0) {
-            document.getElementById('cantidad_modificar_error').textContent = 'La cantidad debe ser mayor a 0.';
+        if (cantidadModificar.value.trim() === '' || cantidadModificar.value < 0) {
+            document.getElementById('cantidad_modificar_error').textContent = 'La cantidad debe ser no menor a 0.';
             valid = false;
         } else {
             document.getElementById('cantidad_modificar_error').textContent = '';

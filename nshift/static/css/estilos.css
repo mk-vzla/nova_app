@@ -176,3 +176,10 @@ h5 {
     font-size: 0.8rem; /* Fuente muy pequeña */
     margin-top: 5px; /* Espaciado para que quede debajo del ícono */
 }
+
+table img:hover {
+    transform: scale(2); /* Duplica el tamaño de la imagen */
+    transition: transform 0.3s ease-in-out; /* Suaviza la transición */
+    z-index: 10; /* Asegura que la imagen esté por encima de otros elementos */
+    position: relative; /* Necesario para que el z-index funcione */
+}

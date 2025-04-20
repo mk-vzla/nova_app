@@ -90,11 +90,13 @@
         <h4>Administración</h4>
         <h3>Consulta Inventario</h3>
     </header>
+    {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
 
     <main class="container my-5">
+        <h2 class="mb-4 text-center">Inventario de Productos</h2>
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-dark">
+            <table class="table table-hover table-striped align-middle">
+                <thead class="table-dark text-center">
                     <tr>
                         <th>ID del producto</th>
                         <th>Categoría</th>
@@ -103,104 +105,40 @@
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Imagen</th>
+                        <th>Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Terror</td>
-                        <td>Resident Evil Village</td>
-                        <td>Sobrevive a horrores en un pueblo misterioso.</td>
-                        <td>59.99</td>
-                        <td>120</td>
-                        <td><img src="{% static 'imagenes/resident_village.jpg' %}" alt="Resident Evil Village" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Terror</td>
-                        <td>Outlast 2</td>
-                        <td>Escapa de un culto en un entorno rural aislado.</td>
-                        <td>29.99</td>
-                        <td>80</td>
-                        <td><img src="{% static 'imagenes/outlast_2.jpg' %}" alt="Outlast 2" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Acción</td>
-                        <td>God of War Ragnarök</td>
-                        <td>Kratos y Atreus luchan contra dioses nórdicos.</td>
-                        <td>69.99</td>
-                        <td>150</td>
-                        <td><img src="{% static 'imagenes/gow_ragnarok.jpg' %}" alt="God of War Ragnarök" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Acción</td>
-                        <td>Devil May Cry 5</td>
-                        <td>Combate demonios con estilo y combos espectaculares.</td>
-                        <td>39.99</td>
-                        <td>200</td>
-                        <td><img src="{% static 'imagenes/dmc.jpg' %}" alt="Devil May Cry 5" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Mundo Abierto</td>
-                        <td>The Legend of Zelda: Breath of the Wild</td>
-                        <td>Explora un vasto mundo de Hyrule y rescata a la princesa Zelda.</td>
-                        <td>59.99</td>
-                        <td>90</td>
-                        <td><img src="{% static 'imagenes/zelda_botw.jpg' %}" alt="The Legend of Zelda: Breath of the Wild" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Mundo Abierto</td>
-                        <td>Red Dead Redemption 2</td>
-                        <td>Vive la vida de un forajido en el Salvaje Oeste.</td>
-                        <td>59.99</td>
-                        <td>110</td>
-                        <td><img src="{% static 'imagenes/rdr_2.jpg' %}" alt="Red Dead Redemption 2" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Free to Play</td>
-                        <td>Fortnite</td>
-                        <td>Batallas campales con construcción y eventos en constante cambio.</td>
-                        <td>0.00</td>
-                        <td>500</td>
-                        <td><img src="{% static 'imagenes/fortnite.jpg' %}" alt="Fortnite" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Free to Play</td>
-                        <td>Apex Legends</td>
-                        <td>Batallas de héroes con habilidades únicas y juego en equipo.</td>
-                        <td>0.00</td>
-                        <td>450</td>
-                        <td><img src="{% static 'imagenes/apex.jpg' %}" alt="Apex Legends" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>Supervivencia</td>
-                        <td>The Forest</td>
-                        <td>Construye refugios y lucha contra caníbales en una isla misteriosa.</td>
-                        <td>19.99</td>
-                        <td>130</td>
-                        <td><img src="{% static 'imagenes/forest.jpg' %}" alt="The Forest" width="80"></td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Supervivencia</td>
-                        <td>Subnautica</td>
-                        <td>Explora un océano alienígena y sobrevive a criaturas marinas.</td>
-                        <td>29.99</td>
-                        <td>140</td>
-                        <td><img src="{% static 'imagenes/subnautica.jpg' %}" alt="Subnautica" width="80"></td>
-                    </tr>
+                    {% if juegos %}
+                        {% for juego in juegos %}
+                        <tr>
+                            <td class="text-center">{{ juego.id_juego }}</td>
+                            <td class="text-center">{{ juego.categoria.nombre_categoria }}</td>
+                            <td>{{ juego.nombre_juego }}</td>
+                            <td>{{ juego.descripcion }}</td>
+                            <td class="text-center">${{ juego.precio }}</td>
+                            <td class="text-center">{{ juego.cantidad_disponible }}</td>
+                            <td class="text-center">
+                                <img src="{{ juego.imagen }}" alt="{{ juego.nombre_juego }}" class="img-thumbnail" width="50">
+                            </td>
+                            <td>
+                                <form id="form-eliminar-{{ juego.id_juego }}" method="post" action="{% url 'eliminar_juego' juego.id_juego %}">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminacion('{{ juego.id_juego }}')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No hay productos en el inventario.</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
     </main>
 
+    {% endif %}
     <footer>
         <div>
             <br>
@@ -210,6 +148,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+            <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+            <script src="{% static 'js/valid_inventario.js' %}"></script>
     </footer>
 
 </body>
