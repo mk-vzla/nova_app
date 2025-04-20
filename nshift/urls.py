@@ -1,5 +1,6 @@
 from django.urls import path, include
-from .views import inicio, accion, administrador, checkout, free_to_play, inventario, listar_usuarios, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro, supervivencia, terror, desconectarse
+from .views import inicio, accion, administrador, checkout, free_to_play, inventario, supervivencia, terror, desconectarse
+from .views import listar_usuarios, login, mis_compras, mundo_abierto, perfil, quienes_somos, recuperar_contra, registro
 
 urlpatterns = [
     path('', inicio, name='inicio'),

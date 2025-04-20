@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
-from .models import Usuario, Rol
+from .models import Usuario, Rol, Categoria, Plataforma, Juego
 from django.contrib.auth.hashers import check_password
 
 
@@ -166,3 +166,106 @@ def modificar_perfil(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+@csrf_exempt
+def agregar_producto(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            print("Datos recibidos:", data)
+
+            # Validación de campos obligatorios
+            campos_obligatorios = ['categoria', 'plataforma', 'nombre', 'descripcion', 'cantidad', 'precio', 'imagen']
+            for campo in campos_obligatorios:
+                if campo not in data:
+                    return JsonResponse({'error': f'El campo {campo} es obligatorio.'}, status=400)
+                # Validación de categoría
+                try:
+                    categoria_id = int(data['categoria'])  # esto lanza ValueError si no es convertible
+                    categoria = Categoria.objects.get(id_categoria=categoria_id)
+                except (Categoria.DoesNotExist, ValueError):
+                    return JsonResponse({'error': 'La categoría especificada no existe.'}, status=400)
+
+                # Validación de plataforma
+                try:
+                    plataforma_id = int(data['plataforma'])  # esto lanza ValueError si no es convertible
+                    plataforma = Plataforma.objects.get(id_plataforma=plataforma_id)
+                except (Plataforma.DoesNotExist, ValueError):
+                    return JsonResponse({'error': 'La plataforma especificada no existe.'}, status=400)
+
+            # Crear producto
+            nuevo_producto = Juego.objects.create(
+                categoria=categoria,
+                plataforma=plataforma,
+                nombre_juego=data['nombre'],
+                descripcion=data['descripcion'],
+                cantidad_disponible=data['cantidad'],
+                precio=data['precio'],
+                imagen=data['imagen']
+            )
+            return JsonResponse({'success': True, 'mensaje': 'Producto añadido exitosamente.'}, status=201)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+    return JsonResponse({'success': False, 'error': 'Método no permitido.'}, status=405)
+
+
+@csrf_exempt
+def obtener_producto(request, producto_id):
+    if request.method == 'GET':
+        try:
+            juego = Juego.objects.get(id_juego=producto_id)
+            data = {
+                'id': juego.id_juego,
+                'categoria': juego.categoria.id_categoria,
+                'plataforma': juego.plataforma.id_plataforma,
+                'nombre': juego.nombre_juego,
+                'descripcion': juego.descripcion,
+                'imagen': juego.imagen,
+                'cantidad': juego.cantidad_disponible,
+                'precio': juego.precio,
+            }
+            return JsonResponse(data, status=200)
+        except Juego.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+@csrf_exempt
+def modificar_producto(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            juego = Juego.objects.get(id_juego=data['producto_id'])
+
+            juego.nombre_juego = data['nombre']
+            juego.descripcion = data['descripcion']
+            juego.imagen = data['imagen']
+            juego.cantidad_disponible = data['cantidad']
+            juego.precio = data['precio']
+
+            # Validar y asignar categoría
+            try:
+                categoria_id = int(data['categoria'])
+                categoria = Categoria.objects.get(id_categoria=categoria_id)
+                juego.categoria = categoria
+            except (Categoria.DoesNotExist, ValueError):
+                return JsonResponse({'error': 'La categoría especificada no existe.'}, status=400)
+
+            # Validar y asignar plataforma
+            try:
+                plataforma_id = int(data['plataforma'])
+                plataforma = Plataforma.objects.get(id_plataforma=plataforma_id)
+                juego.plataforma = plataforma
+            except (Plataforma.DoesNotExist, ValueError):
+                return JsonResponse({'error': 'La plataforma especificada no existe.'}, status=400)
+
+            juego.save()
+
+            return JsonResponse({'mensaje': 'Producto actualizado exitosamente.'})
+        except Juego.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)

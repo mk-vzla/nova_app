@@ -105,7 +105,7 @@
                             <div class="mb-3 d-flex justify-content-between">
                                 <div class="me-2 w-50">
                                     <label for="categoria" class="form-label"></label>
-                                    <select class="form-select" id="categoria" name="categoria">
+                                    <select class="form-select text-center" id="categoria" name="categoria">
                                         <option value="">Selecciona una categoría</option>
                                         <option value="1">Terror</option>
                                         <option value="2">Acción</option>
@@ -130,28 +130,28 @@
                                     <small id="plataforma_error" class="text-danger"></small>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="nombre" name="nombre"
+                            <div class="mb-3 text-center">
+                                <input type="text" class="form-control text-center" id="nombre" name="nombre"
                                     placeholder="Nombre del producto">
                                 <small id="nombre_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" id="descripcion" name="descripcion" rows="2"
+                            <div class="mb-3 text-center">
+                                <textarea class="form-control text-center" id="descripcion" name="descripcion" rows="2"
                                     placeholder="Descripción del producto"></textarea>
                                 <small id="descripcion_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="url" class="form-control" id="imagen" name="imagen"
+                            <div class="mb-3 text-center">
+                                <input type="url" class="form-control text-center" id="imagen" name="imagen"
                                     placeholder="Ingrese la URL de la imagen">
                                 <small id="imagen_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="cantidad" name="cantidad"
+                            <div class="mb-3 text-center">
+                                <input type="number" class="form-control text-center" id="cantidad" name="cantidad"
                                     placeholder="Cantidad disponible">
                                 <small id="cantidad_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="precio" name="precio"
+                            <div class="mb-3 text-center">
+                                <input type="number" class="form-control text-center" id="precio" name="precio"
                                     placeholder="Precio del producto">
                                 <small id="precio_error" class="text-danger"></small>
                             </div>
@@ -174,43 +174,61 @@
                     <div class="card-body">
                         <form id="formulario_modificar_producto">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="producto_id" name="producto_id"
+                                <input type="text" class="form-control text-center" id="producto_id" name="producto_id"
                                     placeholder="ID del producto a modificar">
+                                    <h5>Presiona TAB para buscar</h5>
                                 <small id="producto_id_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <select class="form-select" id="categoria_modificar" name="categoria_modificar">
-                                    <option value="">Selecciona una categoría</option>
-                                    <option value="Terror">Terror</option>
-                                    <option value="Acción">Acción</option>
-                                    <option value="Mundo Abierto">Mundo Abierto</option>
-                                    <option value="Free to Play">Free to Play</option>
-                                    <option value="Supervivencia">Supervivencia</option>
-                                </select>
-                                <small id="categoria_modificar_error" class="text-danger"></small>
+                            <div class="mb-3 d-flex justify-content-between">
+                                <div class="me-2 w-50">
+                                    <label for="categoria_modificar" class="form-label"></label>
+                                    <select class="form-select text-center" id="categoria_modificar" name="categoria_modificar">
+                                        <option value="">Selecciona una categoría</option>
+                                        <option value="1">Terror</option>
+                                        <option value="2">Acción</option>
+                                        <option value="3">Mundo Abierto</option>
+                                        <option value="4">Free to Play</option>
+                                        <option value="5">Supervivencia</option>
+                                    </select>
+                                    <small id="categoria_modificar_error" class="text-danger"></small>
+                                </div>
+                                <div class="w-50">
+                                    <label for="plataforma_modificar" class="form-label"></label>
+                                    <select class="form-select" id="plataforma_modificar" name="plataforma_modificar">
+                                        <option value="">Selecciona una plataforma</option>
+                                        <option value="1">Steam</option>
+                                        <option value="2">Epic Games</option>
+                                        <option value="3">Origin</option>
+                                        <option value="4">Battle.net</option>
+                                        <option value="5">PSN</option>
+                                        <option value="6">Xbox</option>
+                                        <option value="7">Nintendo</option>
+                                    </select>
+                                    <small id="plataforma_modificar_error" class="text-danger"></small>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" id="nombre_modificar" name="nombre_modificar"
+                            <div class="mb-3 text-center">
+                                <input type="text" class="form-control text-center" id="nombre_modificar" name="nombre_modificar"
                                     placeholder="Nuevo nombre del producto">
                                 <small id="nombre_modificar_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" id="descripcion_modificar" name="descripcion_modificar"
+                            <div class="mb-3 text-center">
+                                <textarea class="form-control text-center" id="descripcion_modificar" name="descripcion_modificar"
                                     rows="2" placeholder="Nueva descripción del producto"></textarea>
                                 <small id="descripcion_modificar_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="url" class="form-control" id="imagen_modificar" name="imagen_modificar"
+                            <div class="mb-3 text-center">
+                                <input type="url" class="form-control text-center" id="imagen_modificar" name="imagen_modificar"
                                     placeholder="Ingrese la nueva URL de la imagen">
                                 <small id="imagen_modificar_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="cantidad_modificar"
+                            <div class="mb-3 text-center">
+                                <input type="number" class="form-control text-center" id="cantidad_modificar"
                                     name="cantidad_modificar" placeholder="Nueva cantidad disponible">
                                 <small id="cantidad_modificar_error" class="text-danger"></small>
                             </div>
-                            <div class="mb-3">
-                                <input type="number" class="form-control" id="precio_modificar" name="precio_modificar"
+                            <div class="mb-3 text-center">
+                                <input type="number" class="form-control text-center" id="precio_modificar" name="precio_modificar"
                                     placeholder="Nuevo precio del producto">
                                 <small id="precio_modificar_error" class="text-danger"></small>
                             </div>
@@ -237,7 +255,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/valid_admin.js' %}"></script>
+
     </footer>
 </body>
 

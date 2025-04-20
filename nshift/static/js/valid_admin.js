@@ -24,10 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let valid = true;
 
         const categoria = document.getElementById('categoria');
+        const plataforma = document.getElementById('plataforma');
         const nombre = document.getElementById('nombre');
         const descripcion = document.getElementById('descripcion');
         const cantidad = document.getElementById('cantidad');
         const precio = document.getElementById('precio');
+        const imagen = document.getElementById('imagen');
 
         // Validar categoría
         if (categoria.value.trim() === '') {
@@ -78,10 +80,73 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (valid) {
-            alert('Producto añadido exitosamente.');
-            formAdd.reset();
+            console.log('Formulario válido. Enviando datos...');
+            const producto = {
+                categoria: $('#categoria').val().trim(),
+                plataforma: $('#plataforma').val().trim(),
+                nombre: $('#nombre').val().trim(),
+                descripcion: $('#descripcion').val().trim(),
+                cantidad: parseInt($('#cantidad').val()),
+                precio: parseFloat($('#precio').val()),
+                imagen: $('#imagen').val().trim()
+            };
+
+            $.ajax({
+                url: 'core/agregar_producto/',
+                type: 'POST',
+                data: JSON.stringify(producto),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert(response.mensaje);
+                },
+                error: function (xhr) {
+                    const res = xhr.responseJSON;
+                    alert(res?.error || 'Error al agregar el producto.');
+                }
+            });
         }
     });
+
+
+    // Detectar cambios en el ID del producto y autocompletar campos
+    const productoId = document.getElementById('producto_id');
+    const categoriaModificar = document.getElementById('categoria_modificar');
+    const plataformaModificar = document.getElementById('plataforma_modificar'); // si está en el HTML
+    const nombreModificar = document.getElementById('nombre_modificar');
+    const descripcionModificar = document.getElementById('descripcion_modificar');
+    const imagenModificar = document.getElementById('imagen_modificar');
+    const cantidadModificar = document.getElementById('cantidad_modificar');
+    const precioModificar = document.getElementById('precio_modificar');
+
+    $('#producto_id').on('change', function () {
+        const id = $(this).val().trim();
+
+        if (id !== '') {
+            $.ajax({
+                url: `/core/obtener_producto/${id}/`,
+                type: 'GET',
+                success: function (data) {
+                    $('#categoria_modificar').val(data.categoria);
+                    if ($('#plataforma_modificar').length) {
+                        $('#plataforma_modificar').val(data.plataforma);
+                    }
+                    $('#nombre_modificar').val(data.nombre);
+                    $('#descripcion_modificar').val(data.descripcion);
+                    $('#imagen_modificar').val(data.imagen);
+                    $('#cantidad_modificar').val(data.cantidad);
+                    $('#precio_modificar').val(data.precio);
+                },
+                error: function () {
+                    alert('No se encontró el producto.');
+                    $('#formulario_modificar_producto')[0].reset();
+                }
+            });
+        }
+    });
+
+
+
+
 
     // Validación para el formulario de modificar productos
     formModify.addEventListener('submit', (event) => {
@@ -144,8 +209,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (valid) {
-            alert('Producto modificado exitosamente.');
-            formModify.reset();
+            console.log('Formulario válido. Enviando datos...');
+            const producto = {
+                producto_id: $('#producto_id').val().trim(),
+                categoria: $('#categoria_modificar').val().trim(),
+                plataforma: $('#plataforma_modificar').length ? $('#plataforma_modificar').val().trim() : '',
+                nombre: $('#nombre_modificar').val().trim(),
+                descripcion: $('#descripcion_modificar').val().trim(),
+                imagen: $('#imagen_modificar').val().trim(),
+                cantidad: parseInt($('#cantidad_modificar').val()),
+                precio: parseFloat($('#precio_modificar').val())
+            };
+
+            $.ajax({
+                url: '/core/modificar_producto/',
+                type: 'POST',
+                data: JSON.stringify(producto),
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.mensaje) {
+                        alert(response.mensaje);
+                        formModify.reset();
+                    } else if (response.error) {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function (xhr) {
+                    const res = xhr.responseJSON;
+                    alert(res?.error || 'Error al modificar el producto.');
+                }
+            });
         }
     });
 });
