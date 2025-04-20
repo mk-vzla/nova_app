@@ -19,6 +19,6 @@ form.addEventListener('submit', function (event) {
     // Si todos los campos son válidos, redirige a login.html
     if (valid) {
         alert('Correo de recuperación enviado correctamente.');
-        window.location.href = 'login.html'; // Redirige a la página de login
+        window.location.href = 'login'; // Redirige a la página de iniciar sesión
     }
 });
