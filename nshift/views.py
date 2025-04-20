@@ -81,3 +81,7 @@ def eliminar_juego(request, id_juego):
         juego = get_object_or_404(Juego, id_juego=id_juego)
         juego.delete()
     return redirect('mostrar_inventario')
+
+
+
+#################################################################################################
