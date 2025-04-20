@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Validar precio
-        if (precio.value.trim() === '' || precio.value <= 0) {
-            document.getElementById('precio_error').textContent = 'El precio debe ser mayor a 0.';
+        if (precio.value.trim() === '' || precio.value < 0) {
+            document.getElementById('precio_error').textContent = 'El precio debe ser no menor que 0';
             valid = false;
         } else {
             document.getElementById('precio_error').textContent = '';
