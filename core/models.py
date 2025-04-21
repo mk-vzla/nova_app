@@ -8,12 +8,12 @@ class Rol(models.Model):
 
 
 class Usuario(models.Model):
-    email = models.EmailField(primary_key=True)  # Primary Key
+    email = models.EmailField(primary_key=True, max_length=50)  # Primary Key
     nombre_completo = models.CharField(max_length=50)
     alias = models.CharField(max_length=15, unique=True)
     password = models.CharField(max_length=180)
     fecha_nacimiento = models.DateField()
-    direccion = models.TextField(null=True, blank=True)
+    direccion = models.TextField(null=True, blank=True, max_length=200)
     rol = models.ForeignKey(Rol, to_field='identificador', on_delete=models.CASCADE)  # FK a Rol.identificador
 
     def __str__(self):
