@@ -289,7 +289,7 @@ def enviar_correo_recuperacion(request):
                 # Generar una nueva contraseña aleatoria
                 usuario = Usuario.objects.get(email=email)
 
-                # Enviar correo con Mailtrap
+                # Enviar correo con Mailtrap PELIGRO, PELIGRO WARNING, NO SE DEBEN HARDCODEAR LAS CLAVES EN EL CÓDIGO
                 api_token = "be5779fe18bc66bdbac3eb0cafe9a1b2"
                 mailtrap_id = "3630156"
                 from_email = "password@novashift.com"
