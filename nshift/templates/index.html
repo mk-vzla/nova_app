@@ -27,7 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% if conectado_rol_id != 1 and conectado_rol_id != 3 %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'terror' %}">Terror</a>
                     </li>
@@ -43,7 +43,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'supervivencia' %}">Supervivencia</a>
                     </li>
-                    {% endif %}
+
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
@@ -99,54 +99,60 @@
 
 
     <div class="container text-center my-5">
-        <div class="row search_img d-flex flex-column align-items-center">
-            <div class="col-12 mb-2">
-            <input type="text" class="form-control text-center" placeholder="Buscar Juego">
-            </div>
-            <div class="col-12">
-            <button class="btn btn-outline-primary w-auto">GO!</button>
-            </div>
-        </div>
-        <div class="my-5">
-            <h4>Ofertas de la semana</h4>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-6 col-md-4">
-                <br>
+        <h4>Ofertas</h4>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+            {% for juego in juegos_terror %}
+            <div class="col">
                 <div class="card h-100">
-                    <img src="{% static 'imagenes/gow_ragnarok.jpg' %}" class="card-img-top" alt="God of War Ragnarök">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">God of War Ragnarök</h5>
-                        <p class="card-text">Kratos y Atreus luchan contra dioses nórdicos.</p>
-                        <h3>$69.99 -20%</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4">
-                <br>
-                <div class="card">
-                    <img src="{% static 'imagenes/subnautica.jpg' %}" class="card-img-top" alt="Subnautica">
+            {% endfor %}
+            {% for juego in juegos_accion %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">Subnautica</h5>
-                        <p class="card-text">Explora un océano alienígena y sobrevive a criaturas marinas.</p>
-                        <h3>$29.99 -20%</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4">
-                <br>
-                <div class="card">
-                    <img src="{% static 'imagenes/resident_village.jpg' %}" class="card-img-top" alt="Resident Evil Village">
+            {% endfor %}
+            {% for juego in juegos_mundo_abierto %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">Resident Evil Village</h5>
-                        <p class="card-text">Sobrevive a horrores en un pueblo misterioso.</p>
-                        <h3>$59.99 -20%</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            {% for juego in juegos_supervivencia %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 

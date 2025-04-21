@@ -88,28 +88,21 @@
     <div class="container text-center my-5">
         <h4>Juegos de Mundo Abierto</h4>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+            {% for juego in juegos %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{% static 'imagenes/zelda_botw.jpg' %}" class="card-img-top" alt="The Legend of Zelda: Breath of the Wild">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">The Legend of Zelda: Breath of the Wild</h5>
-                        <p class="card-text">Explora un vasto mundo de Hyrule y rescata a la princesa Zelda.</p>
-                        <h3>$59.99</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{% static 'imagenes/rdr_2.jpg' %}" class="card-img-top" alt="Red Dead Redemption 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Red Dead Redemption 2</h5>
-                        <p class="card-text">Vive la vida de un forajido en el Salvaje Oeste.</p>
-                        <h3>$59.99</h3>
-                        <a href="#" class="btn btn-primary">Comprar</a>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+            <p>No hay juegos disponibles en esta categoría.</p>
+            {% endfor %}
         </div>
     </div>
 

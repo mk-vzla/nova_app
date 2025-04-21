@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    {% load static %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="{% url 'inicio' %}">
@@ -86,32 +85,23 @@
         <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
     </header>
 
-
     <div class="container text-center my-5">
-        <h4>Juegos de Terror</h4>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+            {% for juego in juegos %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{% static 'imagenes/resident_village.jpg' %}" class="card-img-top" alt="Resident Evil Village">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">Resident Evil Village</h5>
-                        <p class="card-text">Sobrevive a horrores en un pueblo misterioso.</p>
-                        <h3>$59.99</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{% static 'imagenes/outlast_2.jpg' %}" class="card-img-top" alt="Outlast 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Outlast 2</h5>
-                        <p class="card-text">Escapa de un culto en un entorno rural aislado.</p>
-                        <h3>$29.99</h3>
-                        <a href="#" class="btn btn-primary">Comprar</a>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+            <p>No hay juegos disponibles en esta categoría.</p>
+            {% endfor %}
         </div>
     </div>
 

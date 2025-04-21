@@ -87,31 +87,22 @@
 
     <div class="container text-center my-5">
         <h4>Juegos de Acción</h4>
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-6 col-md-4">
-                <br>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+            {% for juego in juegos %}
+            <div class="col">
                 <div class="card h-100">
-                    <img src="{% static 'imagenes/gow_ragnarok.jpg' %}" class="card-img-top" alt="God of War Ragnarök">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
                     <div class="card-body">
-                        <h5 class="card-title">God of War Ragnarök</h5>
-                        <p class="card-text">Kratos y Atreus luchan contra dioses nórdicos.</p>
-                        <h3>$69.99</h3>
+                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                        <p class="card-text">{{ juego.descripcion }}</p>
+                        <h3>${{ juego.precio }}</h3>
                         <a href="#" class="btn btn-primary">Comprar</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4">
-                <br>
-                <div class="card h-100">
-                    <img src="{% static 'imagenes/dmc.jpg' %}" class="card-img-top" alt="Devil May Cry 5">
-                    <div class="card-body">
-                        <h5 class="card-title">Devil May Cry 5</h5>
-                        <p class="card-text">Combate demonios con estilo y combos espectaculares.</p>
-                        <h3>$39.99</h3>
-                        <a href="#" class="btn btn-primary">Comprar</a>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+            <p>No hay juegos disponibles en esta categoría.</p>
+            {% endfor %}
         </div>
     </div>
 

@@ -123,23 +123,10 @@ button:hover, .btn:hover {
     border-color: #9400D3; /* Cambia el color del borde */
 }
 
-/* Efecto de hover para el ícono del carrito */
-/*
-.bi-cart, .bi-cart-fill {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-*/
 
 .bi-cart:hover, .bi-cart-fill:hover {
     box-shadow: 0 0 10px 2px #9400D3, 0 0 20px 4px #9400D3; 
     }
-
-/* Efecto de hover para el ícono del perfil */
-/*
-.bi-person {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-*/
 
 .bi-person:hover {
     box-shadow: 0 0 10px 2px #9400D3, 0 0 20px 4px #9400D3; 
@@ -179,7 +166,18 @@ h5 {
 
 table img:hover {
     transform: scale(2); /* Duplica el tamaño de la imagen */
-    transition: transform 0.3s ease-in-out; /* Suaviza la transición */
+    transition: transform 0.3s ease-in-out; 
+    z-index: 10; 
+    position: relative; 
+}
+
+/* Estilo para aumentar el tamaño de las imágenes al hacer hover */
+.card-img-top {
+    transition: transform 0.3s ease-in-out; 
+}
+
+.card-img-top:hover {
+    transform: scale(1.2); 
     z-index: 10; /* Asegura que la imagen esté por encima de otros elementos */
     position: relative; /* Necesario para que el z-index funcione */
 }

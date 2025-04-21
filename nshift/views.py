@@ -84,4 +84,47 @@ def eliminar_juego(request, id_juego):
 
 
 
-#################################################################################################
+################################################################################################# FRONT FRONT Ventas
+# funcion para mostrar juegos categorías; terror, acción, mundo abierto, free to play, supervivencia.
+def mostrar_terror(request):
+    # Filtrar juegos por la categoría "Terror"
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Terror')  # Ajustado al modelo actual
+    return render(request, 'terror.html', {'juegos': juegos})
+
+def mostrar_accion(request):
+    # Filtrar juegos por la categoría "Acción"
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Acción')  # Ajustado al modelo actual
+    return render(request, 'accion.html', {'juegos': juegos})
+
+def mostrar_mundo_abierto(request):
+    # Filtrar juegos por la categoría "Mundo Abierto"
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto')  # Ajustado al modelo actual
+    return render(request, 'mundo_abierto.html', {'juegos': juegos})
+
+def mostrar_free_to_play(request):
+    # Filtrar juegos por la categoría "Free To Play"
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Free To Play')  # Ajustado al modelo actual
+    return render(request, 'free_to_play.html', {'juegos': juegos})
+
+def mostrar_supervivencia(request):
+    # Filtrar juegos por la categoría "Supervivencia"
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Supervivencia')  # Ajustado al modelo actual
+    return render(request, 'supervivencia.html', {'juegos': juegos})
+
+# Mostrar 1 juego de cada categoría en la página de inicio
+def mostrar_juegos_inicio(request):
+    # Filtrar juegos por la categoría "Terror"
+    juegos_terror = Juego.objects.filter(categoria__nombre_categoria='Terror')[:1]  # Ajustado al modelo actual
+    # Filtrar juegos por la categoría "Acción"
+    juegos_accion = Juego.objects.filter(categoria__nombre_categoria='Acción')[:1]  # Ajustado al modelo actual
+    # Filtrar juegos por la categoría "Mundo Abierto"
+    juegos_mundo_abierto = Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto')[:1]  # Ajustado al modelo actual
+    # Filtrar juegos por la categoría "Supervivencia"
+    juegos_supervivencia = Juego.objects.filter(categoria__nombre_categoria='Supervivencia')[:1]  # Ajustado al modelo actual
+
+    return render(request, 'index.html', {
+        'juegos_terror': juegos_terror,
+        'juegos_accion': juegos_accion,
+        'juegos_mundo_abierto': juegos_mundo_abierto,
+        'juegos_supervivencia': juegos_supervivencia,
+    })
