@@ -290,7 +290,7 @@ def enviar_correo_recuperacion(request):
                 usuario = Usuario.objects.get(email=email)
 
                 # Enviar correo con Mailtrap
-                api_token = "6bf88bf3c945c740b7bf0d2cea4433c6"
+                api_token = "be5779fe18bc66bdbac3eb0cafe9a1b2"
                 mailtrap_id = "3630156"
                 from_email = "password@novashift.com"
                 from_name = "Nova Shift"
@@ -302,12 +302,10 @@ def enviar_correo_recuperacion(request):
                 # body_text = "Se ha solicitado un cambio de contraseña. Si no has solicitado este cambio, ignora este mensaje."
                 body_html = f"""
                 <html>
-                <body>
                     <p>Se ha solicitado un cambio de contraseña. Si no has solicitado este cambio, ignora este mensaje.</p>
                     <p>Tu contraseña es: <strong>{password}</strong></p>
                     <p>Puedes iniciar sesión en <a href="http://127.0.0.1:8000/login">Nova Shift</a>.</p>
                     <p>Saludos,<br>Equipo Nova Shift</p>
-                </body>
                 </html>
                 """
                 url = f"https://sandbox.api.mailtrap.io/api/send/{mailtrap_id}"
