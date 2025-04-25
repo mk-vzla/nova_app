@@ -7,7 +7,7 @@ const password1 = document.getElementById('password1');
 const password2 = document.getElementById('password2');
 const fecha = document.getElementById('fecha');
 const descripcion = document.getElementById('direccion');
-const rol = document.getElementById('rol');
+// const rol =  document.getElementById('rol');
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -96,12 +96,14 @@ form.addEventListener('submit', function (event) {
     }
 
     //Rol
+    /*
     if (rol.value.trim() === '') {
         document.getElementById('rol-error').textContent = 'El Rol es obligatorio.';
         valid = false;
     } else {
         document.getElementById('rol-error').textContent = '';
     }
+    */
 
     // Términos
     if (!document.getElementById('terminos').checked) {
@@ -121,7 +123,7 @@ form.addEventListener('submit', function (event) {
             password: $('#password1').val().trim(),
             fecha_nacimiento: $('#fecha').val().trim(),
             direccion: $('#direccion').val(),
-            rol: $('#rol').val().trim()
+            rol: 2 // $('#rol').val().trim()
         };
     
         $.ajax({
