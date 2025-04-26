@@ -3,7 +3,7 @@ import json, requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
-from .models import Usuario, Rol, Categoria, Plataforma, Juego
+from .models import Usuario, Rol, Categoria, Plataforma, Juego, Carrito, Compra
 from django.contrib.auth.hashers import check_password
 from .contra_aleatoria import generar_contraseña_aleatoria
 
@@ -74,6 +74,7 @@ def iniciar_sesion(request):
                 request.session['conectado_nombre_completo'] = usuario.nombre_completo
                 request.session['conectado_direccion'] = usuario.direccion
                 request.session['conectado_password'] = data.get('password')
+                request.session['conectado_email'] = usuario.email
 
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
@@ -336,4 +337,41 @@ def enviar_correo_recuperacion(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+####################################################################################################
+
+@csrf_exempt
+def add_to_cart(request):
+    if request.method == 'POST':
+        try:
+            # Obtener el email del usuario conectado desde el context processor
+            email_usuario = request.session.get('conectado_email')
+            if not email_usuario:
+                return JsonResponse({'error': 'Usuario no autenticado.'}, status=403)
+
+            # Obtener el juego por su ID
+            juego_id = request.POST.get('juego_id')
+            juego = Juego.objects.get(id_juego=juego_id)
+
+            # Verificar si el usuario ya tiene este juego en el carrito
+            usuario = Usuario.objects.get(email=email_usuario)
+            carrito_item, created = Carrito.objects.get_or_create(
+                usuario=usuario,
+                juego=juego,
+                defaults={'cantidad': 1, 'precio_total': juego.precio}
+            )
+
+            if not created:
+                # Si ya existe, incrementar la cantidad
+                carrito_item.cantidad += 1
+                carrito_item.precio_total = carrito_item.cantidad * juego.precio
+                carrito_item.save()
+
+            return JsonResponse({'message': 'Juego añadido al carrito con éxito.'}, status=200)
+        except Juego.DoesNotExist:
+            return JsonResponse({'error': 'El juego no existe.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
