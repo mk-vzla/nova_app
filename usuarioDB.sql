@@ -69,3 +69,6 @@ BEGIN
 END;
 /
 commit;
+
+
+select*from CORE_CARRITO;
