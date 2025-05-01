@@ -44,8 +44,8 @@ form.addEventListener('submit', function (event) {
             data: JSON.stringify(datos),
             contentType: 'application/json',
             success: function (response) {
-                alert('Conexión exitosa: ' + response.mensaje);
-                $('#formulario_login')[0].reset(); // Reinicia el formulario
+                //alert('Conexión exitosa: ' + response.mensaje);
+                //$('#formulario_login')[0].reset(); // Reinicia el formulario
                 window.location.href = '/'; // Redirige a la página principal
             },
             error: function (xhr) {

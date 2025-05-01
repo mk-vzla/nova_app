@@ -194,15 +194,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validar cantidad
         if (cantidadModificar.value.trim() === '' || cantidadModificar.value < 0) {
-            document.getElementById('cantidad_modificar_error').textContent = 'La cantidad debe ser no menor a 0.';
+            document.getElementById('cantidad_modificar_error').textContent = 'La cantidad debe serc ero o positivo';
             valid = false;
         } else {
             document.getElementById('cantidad_modificar_error').textContent = '';
         }
 
         // Validar precio
-        if (precioModificar.value.trim() === '' || precioModificar.value <= 0) {
-            document.getElementById('precio_modificar_error').textContent = 'El precio debe ser mayor a 0.';
+        if (precioModificar.value.trim() === '' || precioModificar.value < 0) {
+            document.getElementById('precio_modificar_error').textContent = 'El precio debe ser cero o positivo.';
             valid = false;
         } else {
             document.getElementById('precio_modificar_error').textContent = '';
