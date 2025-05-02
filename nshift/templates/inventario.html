@@ -23,12 +23,6 @@
 </button>
 
 <body>
-      <!-- INCLUIR EL MODAL -->
-  {% include 'includes/modalBuscarJuego.html' %}
-  <script>
-    // Esto expandirá a "/core/buscar_juego/" según tu urls.py
-    const buscarUrl = "{% url 'buscar_juego' %}";
-  </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="{% url 'inicio' %}">
@@ -106,6 +100,12 @@
         <h4>Administración / INVENTARIO</h4>
     </header>
     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
+          <!-- INCLUIR EL MODAL -->
+  {% include 'includes/modalBuscarJuego.html' %}
+  <script>
+    // Esto expandirá a "/core/buscar_juego/" según tu urls.py
+    const buscarUrl = "{% url 'buscar_juego' %}";
+  </script>
 
     <main class="container my-5">
         <div class="table-responsive">
