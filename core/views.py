@@ -1,11 +1,13 @@
 from django.shortcuts import render
-import json, requests
+import json, requests, os
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from .models import Usuario, Rol, Categoria, Plataforma, Juego
 from django.contrib.auth.hashers import check_password
 from .contra_aleatoria import generar_contraseña_aleatoria
+from urllib.parse import quote
+
 
 
 @csrf_exempt
@@ -166,7 +168,7 @@ def modificar_perfil(request):
             return JsonResponse({'error': 'Usuario no encontrado.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
-    return JsonResponse({'error': 'Método no permitido'}, status=405)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 
 @csrf_exempt
@@ -337,3 +339,65 @@ def enviar_correo_recuperacion(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+
+
+def buscar_juego(request):
+    """
+    Busca juegos en la API de GiantBomb y devuelve un JSON con
+    los campos: name, aliases, deck, image.medium_url,
+    original_release_date, platforms, original_game_rating.
+    """
+    # — Construir la URL con field_list para limitar los campos —
+    query = request.GET.get('query', '').strip()
+    query_encoded = quote(f'"{query}"')
+    api_key = os.environ['MI_API_KEY']  # asume que siempre existe
+    url = (
+        "https://www.giantbomb.com/api/search/"
+        f"?api_key={api_key}"
+        "&format=json"
+        f"&query={query_encoded}"
+        "&resources=game"
+        "&field_list=name,aliases,deck,image,original_release_date,platforms,original_game_rating"
+    )
+
+    # — Headers requeridos por GiantBomb —
+    headers = {
+        'User-Agent': 'NovaShiftApp/1.0',
+        'Accept': 'application/json'
+    }
+
+    try:
+        # — Llamada y parsing —
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+
+        # — Normalizar resultados —
+        raw_results = data.get('results') or []
+        resultados = []
+        for juego in raw_results:
+            resultados.append({
+                'name': juego.get('name', 'N/A'),
+                'aliases': juego.get('aliases', 'N/A'),
+                'deck': juego.get('deck', 'N/A'),
+                'image': juego.get('image', {}).get('medium_url', 'N/A'),
+                'original_release_date': juego.get('original_release_date', 'N/A'),
+                'platforms': [p.get('name', 'N/A') for p in juego.get('platforms') or []],
+                'original_game_rating': [r.get('name', 'N/A') for r in juego.get('original_game_rating') or []],
+            })
+
+        # — Devolver JSON con resultados —
+        return JsonResponse({'resultados': resultados}, status=200)
+
+    except requests.exceptions.HTTPError as http_err:
+        return JsonResponse(
+            {'error': f'HTTP error al consumir la API: {http_err}'},
+            status=response.status_code
+        )
+    except Exception as e:
+        return JsonResponse(
+            {'error': f'Error al consumir la API: {str(e)}'},
+            status=500
+        )

@@ -1,7 +1,7 @@
 # filepath: c:\Users\micha\Documentos\DUOCUC\5toBimestre\ProgramacionWEB\semana4\django\novashift\nova_app\core\urls.py
 from django.urls import path
 from . import views
-from .views import agregar_producto
+from .views import agregar_producto, buscar_juego
 
 
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('obtener_producto/<int:producto_id>/', views.obtener_producto, name='obtener_producto'),
     path('modificar_producto/', views.modificar_producto, name='modificar_producto'),
     path('recuperar_contra/', views.enviar_correo_recuperacion, name='enviar_correo_recuperacion'),
+    path('buscar_juego/', views.buscar_juego, name='buscar_juego'),
 ]

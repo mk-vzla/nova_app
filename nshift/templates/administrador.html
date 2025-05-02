@@ -101,6 +101,21 @@
             <div class="col-12 col-sm-6 col-md-9 col-lg-6">
                 <div class="card">
                     <div class="card-body">
+                              <!-- BOTÓN QUE ABRE EL MODAL -->
+  <div class="container my-4">
+    <button type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalBuscarJuego">
+      API-Juegos
+    </button>
+  </div>
+  <!-- INCLUIR EL MODAL -->
+  {% include 'includes/modalBuscarJuego.html' %}
+  <script>
+    // Esto expandirá a "/core/buscar_juego/" según tu urls.py
+    const buscarUrl = "{% url 'buscar_juego' %}";
+  </script>
                         <form id="formulario_añadir_producto">
                             <div class="mb-3 d-flex justify-content-between">
                                 <div class="me-2 w-50">
@@ -248,6 +263,7 @@
     </div>
 
     {% endif %}
+
     <footer>
         <div>
             <br>
@@ -261,6 +277,7 @@
         <script src="{% static 'js/valid_admin.js' %}"></script>
 
     </footer>
+
 </body>
 
 </html>
