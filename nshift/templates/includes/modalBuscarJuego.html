@@ -1,21 +1,25 @@
 <div class="modal fade" id="modalBuscarJuego" tabindex="-1" aria-labelledby="modalBuscarJuegoLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalBuscarJuegoLabel">Buscar Juego</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formBuscarJuego">
-          <div class="mb-3">
-            <label for="nombreJuego" class="form-label">Nombre del Juego</label>
-            <input type="text" class="form-control" id="nombreJuego" placeholder="Ej: The Legend of Zelda">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title text-center w-100" id="modalBuscarJuegoLabel">BUSCAR JUEGO   --Fuente: www.giantbomb.com</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
-          <button type="button" class="btn btn-primary" id="btnEjecutarBusqueda">Buscar</button>
-        </form>
-        <hr>
-        <div id="resultadosBusqueda" class="mt-3"></div>
+          <div class="modal-body">
+              <form id="formBuscarJuego">
+                  <div class="row mb-3">
+                      <div class="col-md-9">
+                          <label for="nombreJuego" class="form-label visually-hidden">Nombre del Juego</label>
+                          <input type="text" class="form-control" id="nombreJuego" placeholder="Ej: The Legend of Zelda">
+                      </div>
+                      <div class="col-md-3">
+                          <button type="button" class="btn btn-primary w-100" id="btnEjecutarBusqueda">Buscar</button>
+                      </div>
+                  </div>
+              </form>
+              <hr>
+              <div id="resultadosBusqueda" class="mt-3"></div>
+          </div>
       </div>
-    </div>
   </div>
 </div>

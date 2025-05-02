@@ -10,9 +10,25 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <link rel="icon" href="{% static 'imagenes/nova_icono.ico' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 
+<button type="button"
+        class="btn btn-primary position-fixed bottom-0 end-0 m-4"
+        style="z-index: 1055;"
+        data-bs-toggle="modal"
+        data-bs-target="#modalBuscarJuego">
+  API-Juegos
+</button>
+
 <body>
+      <!-- INCLUIR EL MODAL -->
+  {% include 'includes/modalBuscarJuego.html' %}
+  <script>
+    // Esto expandirá a "/core/buscar_juego/" según tu urls.py
+    const buscarUrl = "{% url 'buscar_juego' %}";
+  </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="{% url 'inicio' %}">
@@ -87,27 +103,110 @@
     </nav>
 
     <header>
-        <h4>Administración</h4>
-        <h3>Consulta Inventario</h3>
+        <h4>Administración / INVENTARIO</h4>
     </header>
     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
 
     <main class="container my-5">
-        <h2 class="mb-4 text-center">Inventario de Productos</h2>
         <div class="table-responsive">
             <table class="table table-hover table-striped align-middle">
                 <thead class="table-dark text-center">
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'administrador' %}">
+                            {% include 'includes/database_gear_icon.html' %}
+                        </a>
+                    </li>
                     <tr>
-                        <th>ID del producto</th>
-                        <th>Categoría</th>
-                        <th>Nombre del juego</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Imagen</th>
-                        <th>Borrar</th>
+                      <!-- ID del producto -->
+                      <th>
+                        {% if current_order == 'id_juego' %}
+                          <a href="?orden=id_juego&dir={% if current_dir == 'desc' %}asc{% else %}desc{% endif %}"
+                             class="text-white text-decoration-none text-decoration-underline">
+                            ID del producto
+                            <i class="fas fa-chevron-{% if current_dir == 'desc' %}down{% else %}up{% endif %}"></i>
+                          </a>
+                        {% else %}
+                          <a href="?orden=id_juego&dir=desc"
+                             class="text-white text-decoration-none">
+                            ID del producto
+                          </a>
+                        {% endif %}
+                      </th>
+                  
+                      <!-- Categoría -->
+                      <th>
+                        {% if current_order == 'categoria' %}
+                          <a href="?orden=categoria&dir={% if current_dir == 'desc' %}asc{% else %}desc{% endif %}"
+                             class="text-white text-decoration-none text-decoration-underline">
+                            Categoría
+                            <i class="fas fa-chevron-{% if current_dir == 'desc' %}down{% else %}up{% endif %}"></i>
+                          </a>
+                        {% else %}
+                          <a href="?orden=categoria&dir=desc"
+                             class="text-white text-decoration-none">
+                            Categoría
+                          </a>
+                        {% endif %}
+                      </th>
+                  
+                      <!-- Nombre del juego -->
+                      <th>
+                        {% if current_order == 'nombre_juego' %}
+                          <a href="?orden=nombre_juego&dir={% if current_dir == 'desc' %}asc{% else %}desc{% endif %}"
+                             class="text-white text-decoration-none text-decoration-underline">
+                            Nombre del juego
+                            <i class="fas fa-chevron-{% if current_dir == 'desc' %}down{% else %}up{% endif %}"></i>
+                          </a>
+                        {% else %}
+                          <a href="?orden=nombre_juego&dir=desc"
+                             class="text-white text-decoration-none">
+                            Nombre del juego
+                          </a>
+                        {% endif %}
+                      </th>
+                  
+                      <!-- Descripción (no ordenable) -->
+                      <th>Descripción</th>
+                  
+                      <!-- Precio -->
+                      <th>
+                        {% if current_order == 'precio' %}
+                          <a href="?orden=precio&dir={% if current_dir == 'desc' %}asc{% else %}desc{% endif %}"
+                             class="text-white text-decoration-none text-decoration-underline">
+                            Precio
+                            <i class="fas fa-chevron-{% if current_dir == 'desc' %}down{% else %}up{% endif %}"></i>
+                          </a>
+                        {% else %}
+                          <a href="?orden=precio&dir=desc"
+                             class="text-white text-decoration-none">
+                            Precio
+                          </a>
+                        {% endif %}
+                      </th>
+                  
+                      <!-- Cantidad disponible -->
+                      <th>
+                        {% if current_order == 'cantidad_disponible' %}
+                          <a href="?orden=cantidad_disponible&dir={% if current_dir == 'desc' %}asc{% else %}desc{% endif %}"
+                             class="text-white text-decoration-none text-decoration-underline">
+                            Cantidad
+                            <i class="fas fa-chevron-{% if current_dir == 'desc' %}down{% else %}up{% endif %}"></i>
+                          </a>
+                        {% else %}
+                          <a href="?orden=cantidad_disponible&dir=desc"
+                             class="text-white text-decoration-none">
+                            Cantidad
+                          </a>
+                        {% endif %}
+                      </th>
+                  
+                      <!-- Columnas restantes -->
+                      <th>Imagen</th>
+                      <th>Borrar</th>
                     </tr>
-                </thead>
+                  </thead>
+                  
+                  
                 <tbody>
                     {% if juegos %}
                     {% for juego in juegos %}
@@ -153,6 +252,7 @@
             crossorigin="anonymous"></script>
         <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/valid_inventario.js' %}"></script>
+        <script src="{% static 'js/valid_admin.js' %}"></script>
     </footer>
 
 </body>

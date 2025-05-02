@@ -87,8 +87,7 @@
     </nav>
 
     <header>
-        <h4>Administración</h4>
-        <h3>Consulta Usuarios</h3>
+        <h4>Administración / USUARIOS</h4>
     </header>
     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
 
@@ -96,6 +95,11 @@
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead class="table-dark">
+                    <li class="nav-item separar_Vert">
+                        <a href="{% url 'administrador' %}">
+                            {% include 'includes/database_gear_icon.html' %}
+                        </a>
+                    </li>
                     <tr>
                         <th>Correo Electrónico</th>
                         <th>Alias</th>

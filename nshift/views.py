@@ -74,8 +74,33 @@ def listar_usuarios(request):
 
 @csrf_exempt
 def mostrar_inventario(request):
-    juegos = Juego.objects.select_related('categoria').all()
-    return render(request, 'inventario.html', {'juegos': juegos})
+    # Obtener el parámetro de ordenación
+    orden = request.GET.get('orden', 'id_juego')
+    direccion = request.GET.get('dir', 'desc')  # 'asc' o 'desc'
+
+    # Mapear alias de columnas para ordenamiento
+    valid_fields = {
+        'id_juego': 'id_juego',
+        'categoria': 'categoria__nombre_categoria',
+        'nombre_juego': 'nombre_juego',
+        'precio': 'precio',
+        'cantidad_disponible': 'cantidad_disponible',
+    }
+    sort_field = valid_fields.get(orden, 'id_juego')
+    prefix = '' if direccion == 'asc' else '-'
+
+    # Obtener los juegos ya ordenados
+    juegos = (Juego.objects
+              .select_related('categoria')
+              .order_by(f'{prefix}{sort_field}'))
+
+    return render(request, 'inventario.html', {
+        'juegos': juegos,
+        'current_order': orden,
+        'current_dir': direccion,
+    })
+
+
 
 @csrf_exempt
 def eliminar_juego(request, id_juego):

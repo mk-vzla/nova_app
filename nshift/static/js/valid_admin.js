@@ -247,8 +247,28 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function () {
     const btnBuscar = document.getElementById('btnEjecutarBusqueda');
     const resultadosDiv = document.getElementById('resultadosBusqueda');
+    const formBuscarJuego = document.getElementById('formBuscarJuego');
+    const modalBuscarJuego = document.getElementById('modalBuscarJuego');
 
-    btnBuscar.addEventListener('click', function () {
+    // Prevenir el cierre del modal al presionar Enter
+    formBuscarJuego.addEventListener('submit', (event) => {
+        event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+        ejecutarBusqueda(); // Llama a la función de búsqueda al presionar Enter
+    });
+
+    // Evitar que el modal se cierre al presionar Enter en cualquier campo
+    modalBuscarJuego.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Evita que el Enter cierre el modal
+            ejecutarBusqueda(); // Llama a la función de búsqueda al presionar Enter
+        }
+    });
+
+    // Manejar la búsqueda al hacer clic en el botón
+    btnBuscar.addEventListener('click', ejecutarBusqueda);
+
+    // Función para ejecutar la búsqueda
+    function ejecutarBusqueda() {
         const nombreJuego = document.getElementById('nombreJuego').value.trim();
         if (!nombreJuego) {
             resultadosDiv.innerHTML = '<p class="text-warning">Escribe un nombre de juego.</p>';
@@ -256,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         resultadosDiv.innerHTML = '<p class="text-info">Buscando...</p>';
 
-            fetch(`${buscarUrl}?query=${encodeURIComponent(nombreJuego)}`)
+        fetch(`${buscarUrl}?query=${encodeURIComponent(nombreJuego)}`)
             .then(resp => resp.json())
             .then(data => {
                 resultadosDiv.innerHTML = '';
@@ -272,23 +292,23 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="col-md-4">
                                         <img src="${juego.image}" class="img-fluid rounded-start" alt="${juego.aliases}">
                                     </div>
-                                        <div class="col-md-8">
+                                    <div class="col-md-8">
                                         <div class="card-body">
                                             <dl class="row mb-0">
-                                            <dt class="col-sm-4 text-dark">Alias:</dt>
-                                            <dd class="col-sm-8 text-dark">${juego.aliases}</dd>
+                                                <dt class="col-sm-4 text-dark">Alias:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.aliases}</dd>
 
-                                            <dt class="col-sm-4 text-dark">Descripción:</dt>
-                                            <dd class="col-sm-8 text-dark">${juego.deck}</dd>
+                                                <dt class="col-sm-4 text-dark">Descripción:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.deck}</dd>
 
-                                            <dt class="col-sm-4 text-dark">Lanzamiento:</dt>
-                                            <dd class="col-sm-8 text-dark">${juego.original_release_date}</dd>
+                                                <dt class="col-sm-4 text-dark">Lanzamiento:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.original_release_date}</dd>
 
-                                            <dt class="col-sm-4 text-dark">Plataformas:</dt>
-                                            <dd class="col-sm-8 text-dark">${juego.platforms.join(', ')}</dd>
+                                                <dt class="col-sm-4 text-dark">Plataformas:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.platforms.join(', ')}</dd>
 
-                                            <dt class="col-sm-4 text-dark">Ratings:</dt>
-                                            <dd class="col-sm-8 text-dark">${juego.original_game_rating.join(', ')}</dd>
+                                                <dt class="col-sm-4 text-dark">Ratings/Edades:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.original_game_rating.join(', ')}</dd>
                                             </dl>
                                         </div>
                                     </div>
@@ -301,6 +321,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error al realizar la búsqueda:', err);
                 resultadosDiv.innerHTML = '<p class="text-danger">Error al realizar la búsqueda.</p>';
             });
-    });
+    }
 });
-
