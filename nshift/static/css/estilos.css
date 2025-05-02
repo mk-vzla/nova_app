@@ -181,3 +181,8 @@ table img:hover {
     z-index: 10; /* Asegura que la imagen esté por encima de otros elementos */
     position: relative; /* Necesario para que el z-index funcione */
 }
+
+
+.dl-interlineado {
+    line-height: 1.8;  /* o el valor que necesites */
+  }

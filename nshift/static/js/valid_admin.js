@@ -294,7 +294,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <dl class="row mb-0">
+                                            <dl class="row mb-0 dl-interlineado text-dark">
+                                                <dt class="col-sm-4 text-dark">Nombre:</dt>
+                                                <dd class="col-sm-8 text-dark">${juego.name}</dd>
+                                                
                                                 <dt class="col-sm-4 text-dark">Alias:</dt>
                                                 <dd class="col-sm-8 text-dark">${juego.aliases}</dd>
 
@@ -312,6 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             </dl>
                                         </div>
                                     </div>
+                                    <a class="text-dark">----------------------------------------------------------- </a>
                                 </div>
                             </div>`;
                     });
