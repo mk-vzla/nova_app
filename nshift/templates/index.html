@@ -104,7 +104,8 @@
             {% for juego in juegos_terror %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
+                        style="object-fit: contain; height: 400px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ juego.nombre_juego }}</h5>
                         <p class="card-text">{{ juego.descripcion }}</p>
@@ -117,7 +118,8 @@
             {% for juego in juegos_accion %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
+                        style="object-fit: contain; height: 400px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ juego.nombre_juego }}</h5>
                         <p class="card-text">{{ juego.descripcion }}</p>
@@ -130,7 +132,8 @@
             {% for juego in juegos_mundo_abierto %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
+                        style="object-fit: contain; height: 400px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ juego.nombre_juego }}</h5>
                         <p class="card-text">{{ juego.descripcion }}</p>
@@ -143,7 +146,8 @@
             {% for juego in juegos_supervivencia %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
+                        style="object-fit: contain; height: 400px;">
                     <div class="card-body">
                         <h5 class="card-title">{{ juego.nombre_juego }}</h5>
                         <p class="card-text">{{ juego.descripcion }}</p>
@@ -156,12 +160,6 @@
         </div>
     </div>
 
-
-    <button class="text-center my-4">
-        <a href="{% url 'mini_juego' %}" type="button"
-        class="btn btn-outline-primary position-fixed bottom-0 end-0 m-4"
-        style="z-index: 1055;">Ir al Mini Juego</a>
-    </button>
 
 
     <footer>
@@ -192,8 +190,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-            <script src="{% static 'js/cart_icon.js' %}"></script>
+        <script src="{% static 'js/cart_icon.js' %}"></script>
     </footer>
 </body>
+
+<button type="button" class="btn btn-outline-light position-fixed bottom-0 end-0 m-4" style="z-index: 1055;"
+    onclick="window.location.href='{% url 'mini_juego' %}'">MINI GAME
+</button>
 
 </html>
