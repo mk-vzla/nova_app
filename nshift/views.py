@@ -207,7 +207,7 @@ def mini_juego(request):
 
     # Determina el Pokémon actual
     if nuevo or 'current_pokemon' not in request.session:
-        resp = requests.get('https://pokeapi.co/api/v2/pokemon?limit=1000')
+        resp = requests.get('https://pokeapi.co/api/v2/pokemon?limit=1025')
         if resp.status_code == 200:
             elegido = random.choice(resp.json()['results'])
             current = elegido['name']
