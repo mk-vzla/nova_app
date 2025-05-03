@@ -186,3 +186,14 @@ table img:hover {
 .dl-interlineado {
     line-height: 1.8;  /* o el valor que necesites */
   }
+
+
+  .img-hover-zoom {
+    transition: transform 0.4s ease-in-out; 
+}
+
+.img-hover-zoom:hover {
+    transform: scale(3); 
+    z-index: 10; 
+    position: relative; 
+}
