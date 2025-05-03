@@ -3,6 +3,7 @@ from core.models import Usuario, Juego
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+import requests, random
 
 
 # Create your views here.
@@ -60,6 +61,9 @@ def terror(request):
 
 def usuarios(request):
     return render(request, 'usuarios.html')
+
+def mini_juego(request):
+    return render(request, 'mini_juego.html')
 
 
 # Elimina todos los datos de la sesión
@@ -155,3 +159,114 @@ def mostrar_juegos_inicio(request):
         'juegos_mundo_abierto': juegos_mundo_abierto,
         'juegos_supervivencia': juegos_supervivencia,
     })
+
+
+################################################################################################# Mini Juego API
+URL = "https://pokeapi.co/api/v2/pokemon"
+
+# haré un formulario para que el usuario responda el tipo de pokemon que se menciona en la api. esto estará en un formulario en el template mini_juego.html
+# el metodo es get, mostrando el pokemon, ejemplo Pikachu.
+# El formulario tiene predefinidas todas las especioes (tipo) y el usuario elige una de esas. No necesito hacer ningún post hacia pokepi.
+# importé random, para que seleccione de forma aleatoria un pokemon de la api, y lo muestre en el template mini_juego.html
+
+# Sabiendo que https://pokeapi.co/api/v2/pokemon/ditto me trae el pokemon ditto, por ejemplo.
+# y si haces un for de este pokemon, te trae el tipo o los tipos de de ese pokemon consultado. ejemplo:
+# for type in data['types']:
+#     print(type['type']['name'])
+# considerar que seleccionar un tipo de varios, sería una respuesta correcta.
+
+@csrf_exempt
+def mini_juego(request):
+    tipos_disponibles = {
+    'water': 'Agua',
+    'steel': 'Acero',
+    'bug': 'Bicho',
+    'dragon': 'Dragón',
+    'electric': 'Eléctrico',
+    'ghost': 'Fantasma',
+    'fire': 'Fuego',
+    'fairy': 'Hada',
+    'ice': 'Hielo',
+    'fighting': 'Lucha',
+    'normal': 'Normal',
+    'grass': 'Planta',
+    'psychic': 'Psíquico',
+    'rock': 'Roca',
+    'dark': 'Siniestro',
+    'ground': 'Tierra',
+    'poison': 'Veneno',
+    'flying': 'Volador',
+}
+
+    # “nuevo Pokémon” si viene new=1
+    nuevo = request.GET.get('new') == '1'
+
+    # Inicializa o recupera sesión
+    intentos = request.session.setdefault('intentos', 0)
+    aciertos = request.session.setdefault('aciertos', 0)
+
+    # Determina el Pokémon actual
+    if nuevo or 'current_pokemon' not in request.session:
+        resp = requests.get('https://pokeapi.co/api/v2/pokemon?limit=1000')
+        if resp.status_code == 200:
+            elegido = random.choice(resp.json()['results'])
+            current = elegido['name']
+        else:
+            current = 'pikachu'
+        request.session['current_pokemon'] = current
+    else:
+        current = request.session['current_pokemon']
+
+    tipo_seleccionado = request.GET.get('tipo')
+    nombre_pokemon = current
+
+    imagen_url = None
+    tipos_pokemon_ing = []
+    tipos_pokemon_es = []
+
+    # Si ya seleccionó y hay menos de 10 intentos, procesa la respuesta
+    if tipo_seleccionado and intentos < 10:
+        resp = requests.get(f'https://pokeapi.co/api/v2/pokemon/{nombre_pokemon}')
+        if resp.status_code == 200:
+            data = resp.json()
+            imagen_url = data['sprites']['front_default']
+            tipos_pokemon_ing = [t['type']['name'] for t in data['types']]
+        tipos_pokemon_es = [tipos_disponibles[t] for t in tipos_pokemon_ing if t in tipos_disponibles]
+
+        intentos += 1
+        if tipo_seleccionado in tipos_pokemon_ing:
+            aciertos += 1
+
+        request.session['intentos'] = intentos
+        request.session['aciertos'] = aciertos
+
+    else:
+        # Primera vez, o después de 10 intentos, o recarga sin enviar
+        resp = requests.get(f'https://pokeapi.co/api/v2/pokemon/{nombre_pokemon}')
+        if resp.status_code == 200:
+            imagen_url = resp.json()['sprites']['front_default']
+        # tipos_pokemon_ing y es quedan vacíos hasta que se evalúe
+
+    promedio = round((aciertos / intentos) * 100) if intentos > 0 else 0
+    tipo_seleccionado_es = tipos_disponibles.get(tipo_seleccionado, '')
+
+    return render(request, 'mini_juego.html', {
+        'nombre_pokemon': nombre_pokemon,
+        'imagen_url': imagen_url,
+        'tipos_disponibles': tipos_disponibles,
+        'tipo_seleccionado': tipo_seleccionado,
+        'tipo_seleccionado_es': tipo_seleccionado_es,
+        'tipos_pokemon_ing': tipos_pokemon_ing,
+        'tipos_pokemon_es': tipos_pokemon_es,
+        'intentos': intentos,
+        'aciertos': aciertos,
+        'promedio': promedio
+    })
+
+
+def reiniciar_juego(request):
+    request.session['intentos'] = 0
+    request.session['aciertos'] = 0
+    # Eliminar Pokémon actual para forzar uno nuevo
+    request.session.pop('current_pokemon', None)
+    return redirect('mini_juego')
