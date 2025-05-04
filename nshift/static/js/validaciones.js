@@ -43,6 +43,9 @@ form.addEventListener('submit', function (event) {
     } else if (alias.value.trim().length > 15) {
         document.getElementById('alias-error').textContent = 'El alias no debe exceder los 15 caracteres.';
         valid = false;
+    } else if (palabrasProhibidas.includes(alias.value.trim().toLowerCase())) {
+        document.getElementById('alias-error').textContent = 'El alias contiene palabras prohibidas.';
+        valid = false;
     } else {
         document.getElementById('alias-error').textContent = '';
     }
@@ -151,3 +154,97 @@ limpiarButton.addEventListener('click', function () {
     document.querySelector('.error-message').textContent = ''; // Limpia el mensaje de términos
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Array de palabras prohibidas
+const palabrasProhibidas = [
+    "admin",
+    "root",
+    "password",
+    "123456",
+    "sexo",
+    "violencia",
+    "droga",
+    "asesino",
+    "hacker",
+    "pirata",
+    "fraude",
+    "racismo",
+    "odio",
+    "terror",
+    "bomba",
+    "crimen",
+    "ilegal",
+    "prohibido",
+    "malware",
+    "phishing",
+    "spam",
+    "virus",
+    "troll",
+    "insulto",
+    "ofensivo",
+    "abusivo",
+    "estafa",
+    "pornografía",
+    "nazi",
+    "homofobia",
+    "xenofobia",
+    "pedofilia",
+    "violador",
+    "asesinato",
+    "suicidio",
+    "armas",
+    "corrupción",
+    "chantaje",
+    "extorsión",
+    "hack",
+    "crack",
+    "falsificación",
+    "engaño",
+    "mentira",
+    "ilegalidad",
+    "contrabando",
+    "terrorismo",
+    "radical",
+    "odio",
+    "discriminación",
+    "prostitución",
+    "mafioso",
+    "delincuente",
+    "viola"
+  ];

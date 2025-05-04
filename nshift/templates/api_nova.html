@@ -92,65 +92,120 @@
         </div>
     </nav>
 
+    {% if conectado_rol_id %}
+        <div class="background-image"></div>
+        <header>
+            <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
+        </header>
 
-    <div class="background-image"></div>
-    <header>
-        <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
-    </header>
-
-    <div class="container text-center mt-5">
-        <h1 class="mb-4">API Conoce Todos Nuestros Juegos</h1>
-        <div class="row justify-content-center">
-            <!-- Django REST Framework -->
-            <div class="col-md-6">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="card-title mb-0">
-                            <a href="http://127.0.0.1:8000/core/api/copias/" target="_blank"
-                                class="text-white text-decoration-none">
-                                Django REST Framework
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Accede a la API utilizando Django REST Framework para obtener los datos de los juegos
-                            copiados.
-                            <br>
-                            URL:
-                            <span id="drf-url" class="text-primary">http://127.0.0.1:8000/core/api/copias/</span>
-                            <button class="btn btn-outline-primary btn-sm ms-2"
-                                onclick="copyToClipboard('drf-url')">Copiar</button>
-                        </p>
+        <div class="container text-center mt-5">
+            <h1 class="mb-4">API Conoce Todos Nuestros Juegos</h1>
+            <div class="row justify-content-center">
+                <!-- Django REST Framework -->
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <a href="http://127.0.0.1:8000/core/api/copias/" target="_blank"
+                                    class="text-white text-decoration-none">
+                                    Django REST Framework
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Accede a la API utilizando Django REST Framework para obtener los datos de los juegos
+                                copiados.
+                                <br>
+                                URL:
+                                <span id="drf-url" class="text-primary">http://127.0.0.1:8000/core/api/copias/</span>
+                                <button class="btn btn-outline-primary btn-sm ms-2"
+                                    onclick="copyToClipboard('drf-url')">Copiar</button>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- JsonResponse -->
-            <div class="col-md-6">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="card-title mb-0">
-                            <a href="http://127.0.0.1:8000/core/api/copias-json/" target="_blank"
-                                class="text-white text-decoration-none">
-                                JsonResponse
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Accede a la API utilizando una vista personalizada que devuelve un JSON simple.
-                            <br>
-                            URL:
-                            <span id="json-url" class="text-success">http://127.0.0.1:8000/core/api/copias-json/</span>
-                            <button class="btn btn-outline-success btn-sm ms-2"
-                                onclick="copyToClipboard('json-url')">Copiar</button>
-                        </p>
+                <!-- JsonResponse -->
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">
+                                <a href="http://127.0.0.1:8000/core/api/copias-json/" target="_blank"
+                                    class="text-white text-decoration-none">
+                                    JsonResponse
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Accede a la API utilizando una vista personalizada que devuelve un JSON simple.
+                                <br>
+                                URL:
+                                <span id="json-url" class="text-success">http://127.0.0.1:8000/core/api/copias-json/</span>
+                                <button class="btn btn-outline-success btn-sm ms-2"
+                                    onclick="copyToClipboard('json-url')">Copiar</button>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="container text-center mt-5">
+            <h1 class="mb-4">API Sugiere Nombres A Nuestros Usuarios</h1>
+            <div class="row justify-content-center">
+                <!-- Django REST Framework -->
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <a href="http://127.0.0.1:8000/core/api/alias-sugerido/" target="_blank"
+                                    class="text-white text-decoration-none">
+                                    Django REST Framework
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Admite el método <strong>POST</strong> para que nos proveas de los nombres más creativos
+                                para sugerirles a nuestros nuevos usuarios.
+                                <br>
+                                De esta manera:
+                                <span id="rest-url" class="text-success"> {"alias": "NuevoAlias"}</span>
+                                <button class="btn btn-outline-success btn-sm ms-2"
+                                    onclick="copyToClipboard('rest-url')">Copiar</button>
+                                <br>
+                                Header: Content-Type application/json
+                            </p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desde cualquier otra parte -->
+                <div class="col-md-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">Desde cualquier otra parte</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Puedes usar esta URL para enviar tus sugerencias desde cualquier cliente HTTP como Postman,
+                                Thunder Client o cURL.
+                                <br>
+                                URL:
+                                <span id="generic-alias-url"
+                                    class="text-success">http://127.0.0.1:8000/core/api/alias-sugerido/</span>
+                                <button class="btn btn-outline-success btn-sm ms-2"
+                                    onclick="copyToClipboard('generic-alias-url')">Copiar</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <footer class="text-center mt-5">
         <p>© 2025 Nova Shift</p>

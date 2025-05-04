@@ -10,8 +10,8 @@ from urllib.parse import quote
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .models_copy import CopiaJuego
-from .serializers import CopiaJuegoSerializer
+from .models_copy import CopiaJuego, AliasSugerido
+from .serializers import CopiaJuegoSerializer, AliasSugeridoSerializer
 
 
 
@@ -422,3 +422,10 @@ def lista_copias_json(request):
 
 
 ################################################################################################################################ API LOCAL 02
+class AliasSugeridoCreateAPIView(APIView):
+    def post(self, request):
+        serializer = AliasSugeridoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
