@@ -128,5 +128,6 @@ PALABRAS_PROHIBIDAS = [
     "prostitución",
     "mafioso",
     "delincuente",
-    "viola"
+    "viola",
+    "alias"
   ]

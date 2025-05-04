@@ -155,7 +155,30 @@ limpiarButton.addEventListener('click', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    nombre.focus();
+    cargarAliasSugeridos();
+});
 
+function cargarAliasSugeridos() {
+    fetch('/core/api/alias-sugeridos/')
+        .then(response => response.json())
+        .then(data => {
+            const aliasSugerenciasDiv = document.getElementById('alias-sugerencias');
+            aliasSugerenciasDiv.innerHTML = ''; // Limpia las sugerencias anteriores
+            data.alias_sugeridos.forEach(alias => {
+                const aliasButton = document.createElement('button');
+                aliasButton.type = 'button';
+                aliasButton.className = 'btn btn-outline-secondary btn-sm';
+                aliasButton.textContent = alias;
+                aliasButton.onclick = () => {
+                    document.getElementById('alias').value = alias;
+                };
+                aliasSugerenciasDiv.appendChild(aliasButton);
+            });
+        })
+        .catch(error => console.error('Error al cargar alias sugeridos:', error));
+}
 
 
 
@@ -246,5 +269,6 @@ const palabrasProhibidas = [
     "prostitución",
     "mafioso",
     "delincuente",
-    "viola"
+    "viola",
+    "alias"
   ];

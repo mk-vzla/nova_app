@@ -1,7 +1,7 @@
 # filepath: c:\Users\micha\Documentos\DUOCUC\5toBimestre\ProgramacionWEB\semana4\django\novashift\nova_app\core\urls.py
 from django.urls import path
 from . import views
-from .views import agregar_producto, buscar_juego, CopiaJuegoListAPIView, lista_copias_json, AliasSugeridoCreateAPIView
+from .views import agregar_producto, buscar_juego, CopiaJuegoListAPIView, lista_copias_json, AliasSugeridoCreateAPIView, obtener_alias_sugeridos
 
 
 
@@ -19,4 +19,6 @@ urlpatterns = [
     path('api/copias/', CopiaJuegoListAPIView.as_view(), name='lista-copias'),
     path('api/copias-json/', lista_copias_json, name='lista-copias-json'),
     path('api/alias-sugerido/', AliasSugeridoCreateAPIView.as_view(), name='crear-alias-sugerido'),
+    path('api/alias-sugeridos/', obtener_alias_sugeridos, name='alias-sugeridos'),
+
 ]
