@@ -73,101 +73,88 @@
 
     <div class="background-image"></div>
     <header>
-        <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
+        <!-- <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image"> -->
+        <!-- <h2>Pokemon Game</h2> -->
     </header>
 
     <div class="container mt-4">
-        <div class="row justify-content-center">
-          <div class="col-12 col-sm-8 col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <h5>Adivina el tipo de Pokémon</h5>
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6">
+          <div class="card">
+            <div class="card-body">
+              {% if intentos > 0 and intentos < 10 %}
+              <div class="mb-3">
+                <strong>Intentos:</strong> {{ intentos }} |
+                <strong>Correctas:</strong> {{ aciertos }} |
+                <strong>Promedio:</strong> {{ promedio }}%
               </div>
-              <div class="card-body">
-    
-                {% if intentos > 0 and intentos < 10 %}
+              {% endif %}
+              {% if intentos > 9 %}
+              <div class="mb-3">
+                <h4>FIN DEL JUEGO</h4>
+                <strong>Intentos:</strong> {{ intentos }} |
+                <strong>Correctas:</strong> {{ aciertos }} |
+                <strong>Promedio:</strong> {{ promedio }}%
+                <h5>Créditos: pokeapi.co</h5>
+              </div>
+              {% endif %}
+              <h4>¿Cuál es el tipo de <strong><u>{{ nombre_pokemon|capfirst }}</u></strong>?</h4>
+              {% if imagen_url %}
+              <div class="text-center mb-3">
+                <img src="{{ imagen_url }}" alt="{{ nombre_pokemon }}" width="120" height="120" class="img-hover-zoom">
+              </div>
+              {% endif %}
+              <form method="get" action="">
                 <div class="mb-3">
-                  <strong>Intentos:</strong> {{ intentos }} |
-                  <strong>Correctas:</strong> {{ aciertos }} |
-                  <strong>Promedio:</strong> {{ promedio }}%
+                  <label for="tipo" class="form-label">Selecciona un tipo:</label>
+                  <select name="tipo" id="tipo" class="form-select" {% if tipo_seleccionado or intentos >= 10 %}disabled{% endif %}>
+                    {% for key, val in tipos_disponibles.items %}
+                    <option value="{{ key }}">{{ val }}</option>
+                    {% endfor %}
+                  </select>
                 </div>
-                {% endif %}
-                {% if intentos > 9 %}
-                <div class="mb-3">
-                    <h4>FIN DEL JUEGO</h4>
-                  <strong>Intentos:</strong> {{ intentos }} |
-                  <strong>Correctas:</strong> {{ aciertos }} |
-                  <strong>Promedio:</strong> {{ promedio }}%
-                  <h5>Créditos: pokeapi.co</h5>
-                </div>
-                {% endif %}
-    
-                <h4>¿Cuál es el tipo de <strong><u>{{ nombre_pokemon|capfirst }}</u></strong>?</h4>
-    
-                {% if imagen_url %}
-                <div class="text-center mb-3">
-                  <img src="{{ imagen_url }}" alt="{{ nombre_pokemon }}" width="120" height="120" class="img-hover-zoom">
-                </div>
-                {% endif %}
-    
-                <form method="get" action="">
-                  <div class="mb-3">
-                    <label for="tipo" class="form-label">Selecciona un tipo:</label>
-                    <select name="tipo" id="tipo" class="form-select"
-                            {% if tipo_seleccionado or intentos >= 10 %}disabled{% endif %}>
-                      {% for key, val in tipos_disponibles.items %}
-                      <option value="{{ key }}">{{ val }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-    
-                  <input type="hidden" name="nombre_pokemon" value="{{ nombre_pokemon }}">
-    
-                  <button type="submit"
-                          class="btn {% if tipo_seleccionado or intentos >= 10 %}btn-outline-secondary{% else %}btn-outline-info{% endif %} w-100"
-                          {% if tipo_seleccionado or intentos >= 10 %}disabled{% endif %}>
+                <input type="hidden" name="nombre_pokemon" value="{{ nombre_pokemon }}">
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn {% if tipo_seleccionado or intentos >= 10 %}btn-outline-secondary{% else %}btn-outline-info{% endif %} w-45"
+                    {% if tipo_seleccionado or intentos >= 10 %}disabled{% endif %}>
                     Comprobar
                   </button>
-                </form>
-    
-                {% if tipo_seleccionado %}
-                <div class="mt-3">
-                  {% if tipo_seleccionado in tipos_pokemon_ing %}
-                  <div class="alert alert-success">
-                    ¡Correcto! {{ nombre_pokemon|capfirst }} es de tipo <strong><u>{{ tipo_seleccionado_es }}</u></strong>.
-                  </div>
-                  {% else %}
-                  <div class="alert alert-danger">
-                    Incorrecto. {{ nombre_pokemon|capfirst }} no es de tipo <strong><u>{{ tipo_seleccionado_es }}</u></strong>,
-                    es de tipo
-                    {% for t in tipos_pokemon_es %}
-                      <strong><u>{{ t }}</u></strong>{% if not forloop.last %}, {% endif %}
-                    {% endfor %}.
-                  </div>
-                  {% endif %}
-                </div>
-                {% endif %}
-                <div class="mt-4 d-flex justify-content-between">
                   {% if tipo_seleccionado and intentos < 10 %}
-                  <a href="{% url 'mini_juego' %}?new=1" class="btn btn-outline-warning w-75">
-                    Siguiente Pokémon
+                  <a href="{% url 'mini_juego' %}?new=1" class="btn btn-outline-warning w-35">
+                    Siguiente
                   </a>
                   {% else %}
-                  <button type="button" class="btn btn-outline-secondary w-75" disabled>
-                    Siguiente Pokémon
+                  <button type="button" class="btn btn-outline-secondary w-35" disabled>
+                    Siguiente
                   </button>
                   {% endif %}
-    
-                  <a href="{% url 'reiniciar_juego' %}" class="btn btn-outline-danger w-25 ms-2">
-                    Reiniciar
+                  <a href="{% url 'reiniciar_juego' %}" class="btn btn-outline-danger w-25">
+                    Restart
                   </a>
                 </div>
-    
+              </form>
+              {% if tipo_seleccionado %}
+              <div class="mt-3">
+                {% if tipo_seleccionado in tipos_pokemon_ing %}
+                <div class="alert alert-success">
+                  ¡Correcto! {{ nombre_pokemon|capfirst }} es de tipo <strong><u>{{ tipo_seleccionado_es }}</u></strong>.
+                </div>
+                {% else %}
+                <div class="alert alert-danger">
+                  Incorrecto. {{ nombre_pokemon|capfirst }} no es de tipo <strong><u>{{ tipo_seleccionado_es }}</u></strong>, es de tipo
+                  {% for t in tipos_pokemon_es %}
+                  <strong><u>{{ t }}</u></strong>{% if not forloop.last %}, {% endif %}
+                  {% endfor %}.
+                </div>
+                {% endif %}
               </div>
+              {% endif %}
             </div>
           </div>
         </div>
       </div>
+    </div>
+    
 
     <footer class="text-center mt-4">
         <p>© 2025 Nova Shift</p>
