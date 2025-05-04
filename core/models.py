@@ -41,7 +41,7 @@ class Juego(models.Model):
     id_juego = models.AutoField(primary_key=True)  # Primary Key
     categoria = models.ForeignKey(Categoria, to_field='id_categoria', on_delete=models.CASCADE)  # FK a Categoria.id_categoria
     plataforma = models.ForeignKey(Plataforma, to_field='id_plataforma', on_delete=models.CASCADE)  # FK a Plataforma.id_plataforma
-    nombre_juego = models.CharField(max_length=50)
+    nombre_juego = models.CharField(max_length=50, unique=True)  # Nombre como identificador único
     descripcion = models.TextField()
     cantidad_disponible = models.PositiveIntegerField()  # Ajustado para aceptar solo valores positivos
     precio = models.DecimalField(max_digits=10, decimal_places=2)  # Máximo 10 dígitos, 2 decimales
