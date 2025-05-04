@@ -7,6 +7,11 @@ from .models import Usuario, Rol, Categoria, Plataforma, Juego
 from django.contrib.auth.hashers import check_password
 from .contra_aleatoria import generar_contraseña_aleatoria
 from urllib.parse import quote
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .models_copy import CopiaJuego
+from .serializers import CopiaJuegoSerializer
 
 
 
@@ -274,8 +279,7 @@ def modificar_producto(request):
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 
-############################################################################################ ENVÍO DE MAILTRAP
-
+################################################################################################################################ ENVÍO DE MAILTRAP
 @csrf_exempt
 def enviar_correo_recuperacion(request):
     if request.method == 'POST':
@@ -342,7 +346,7 @@ def enviar_correo_recuperacion(request):
 
 
 
-
+################################################################################################################################ API DE GIANTBOMB (GET)
 def buscar_juego(request):
     """
     Busca juegos en la API de GiantBomb y devuelve un JSON con
@@ -401,3 +405,20 @@ def buscar_juego(request):
             {'error': f'Error al consumir la API: {str(e)}'},
             status=500
         )
+
+
+
+################################################################################################################################ API LOCAL 01
+class CopiaJuegoListAPIView(APIView):
+    def get(self, request):
+        copias = CopiaJuego.objects.all()
+        serializer = CopiaJuegoSerializer(copias, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+def lista_copias_json(request):
+    copias = CopiaJuego.objects.all().values('id', 'nombre_juego', 'descripcion', 'precio', 'imagen')
+    return JsonResponse(list(copias), safe=False)
+
+
+################################################################################################################################ API LOCAL 02

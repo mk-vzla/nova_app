@@ -81,6 +81,11 @@
                         </a>
                     </li>
                     <li class="nav-item separar_Vert">
+                      <a href="{% url 'mostrar_api_nova' %}">
+                          <img src="{% static 'imagenes/api.png' %}" width="40px" height="40px" fill="red" class="bi bi-person" viewBox="0 0 16 16">
+                      </a>
+                  </li>
+                    <li class="nav-item separar_Vert">
                         <a href="{% url 'desconectarse' %}" class="btn btn-outline-danger">Salir</a>
                     </li>
                     {% else %}

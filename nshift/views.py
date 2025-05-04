@@ -65,6 +65,9 @@ def usuarios(request):
 def mini_juego(request):
     return render(request, 'mini_juego.html')
 
+def mostrar_api_nova(request):
+    return render(request, 'api_nova.html')
+
 
 # Elimina todos los datos de la sesión
 def desconectarse(request):
