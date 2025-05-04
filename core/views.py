@@ -403,13 +403,13 @@ def buscar_juego(request):
 ################################################################################################################################ API LOCAL 01
 class CopiaJuegoListAPIView(APIView):
     def get(self, request):
-        copias = CopiaJuego.objects.all()
+        copias = CopiaJuego.objects.all().values('nombre_juego', 'descripcion', 'precio', 'imagen')
         serializer = CopiaJuegoSerializer(copias, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 def lista_copias_json(request):
-    copias = CopiaJuego.objects.all().values('id', 'nombre_juego', 'descripcion', 'precio', 'imagen')
+    copias = CopiaJuego.objects.all().values('nombre_juego', 'descripcion', 'precio', 'imagen')
     return JsonResponse(list(copias), safe=False)
 
 
