@@ -1,7 +1,9 @@
 correr servidor:
 python manage.py runserver
+python manage.py runserver 192.168.1.84:8000
 url: 
 http://127.0.0.1:8000
+http://192.168.1.84:8000/
 
 oracledb
 --BD michaDBora Michael2020 - nombre base de datos de conexion: novapdb
