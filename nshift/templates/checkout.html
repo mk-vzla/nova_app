@@ -97,46 +97,32 @@
         <h4>Tu carrito</h4>
     </div>
 
+    <h3>Cantidad de Productos añadidos: {{ productos_carrito|length }}</h3>
+
     <div class="container my-5">
-        <h3>Resumen de tu compra</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Nombre Producto</th>
-                    <th>Precio Original</th>
-                    <th>Precio con Descuento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><img src="{% static 'imagenes/gow_ragnarok.jpg' %}" alt="God of War Ragnarök" width="80"></td>
-                    <td>God of War Ragnarök</td>
-                    <td>$69.99</td>
-                    <td>$55.99</td>
-                </tr>
-                <tr>
-                    <td><img src="{% static 'imagenes/subnautica.jpg' %}" alt="Subnautica" width="80"></td>
-                    <td>Subnautica</td>
-                    <td>$29.99</td>
-                    <td>$23.99</td>
-                </tr>
-                <tr>
-                    <td><img src="{% static 'imagenes/resident_village.jpg' %}" alt="Resident Evil Village" width="80"></td>
-                    <td>Resident Evil Village</td>
-                    <td>$59.99</td>
-                    <td>$47.99</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2">Totales</th>
-                    <td>Subtotal: $159.97</td>
-                    <th><strong>TOTAL: $127.97</strong></th>
-                </tr>
-            </tfoot>
-        </table>
-        <div class="text-center">
+        <h3 class="text-center">Tu Carrito</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            {% for item in productos_carrito %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ item.juego.imagen }}" class="card-img-top" alt="{{ item.juego.nombre_juego }}" style="object-fit: contain; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.juego.nombre_juego }}</h5>
+                        <p class="card-text">Cantidad: {{ item.cantidad }}</p>
+                        <p class="card-text">Precio Unitario: ${{ item.juego.precio }}</p>
+                        <p class="card-text">Precio Total: ${{ item.precio_total }}</p>
+                        <button class="btn btn-sm btn-danger btn-eliminar" data-producto-id="{{ item.juego.id_juego }}">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No hay productos en el carrito.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4"></div>
+            <h4>Total: ${{ total_precio }}</h4>
             <button class="btn btn-outline-primary">Proceder al Pago</button>
         </div>
     </div>
@@ -150,7 +136,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <script src="{% static 'js/cart_icon.js' %}"></script>
+        <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'js/comprar.js' %}"></script>
     </footer>
 </body>
 

@@ -1,7 +1,7 @@
 # filepath: c:\Users\micha\Documentos\DUOCUC\5toBimestre\ProgramacionWEB\semana4\django\novashift\nova_app\core\urls.py
 from django.urls import path
 from . import views
-from .views import agregar_producto, buscar_juego, CopiaJuegoListAPIView, lista_copias_json, AliasSugeridoCreateAPIView, obtener_alias_sugeridos, agregar_al_carrito
+from .views import agregar_producto, CopiaJuegoListAPIView, lista_copias_json, AliasSugeridoCreateAPIView, obtener_alias_sugeridos, agregar_al_carrito
 
 
 
@@ -21,4 +21,6 @@ urlpatterns = [
     path('api/alias-sugerido/', AliasSugeridoCreateAPIView.as_view(), name='crear-alias-sugerido'),
     path('api/alias-sugeridos/', obtener_alias_sugeridos, name='alias-sugeridos'),
     path('agregar_al_carrito/', agregar_al_carrito, name='agregar_al_carrito'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('eliminar_del_carrito/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
 ]

@@ -1,4 +1,4 @@
-from core.models import Usuario
+from core.models import Usuario, Carrito
 
 def session_data(request):
     """
@@ -18,6 +18,7 @@ def session_data(request):
             conectado_nombre_completo = usuario.nombre_completo
             conectado_direccion = usuario.direccion
             conectado_email = usuario.email  # Obtener el email del usuario
+            productos_carrito = Carrito.objects.filter(usuario__email=conectado_email)
         except Usuario.DoesNotExist:
             # Si el usuario no existe, limpiar la sesión
             request.session.flush()
@@ -29,4 +30,5 @@ def session_data(request):
         'conectado_direccion': conectado_direccion,
         'conectado_email': conectado_email,  # Agregar el email al contexto
         'conectado_password': request.session.get('conectado_password', None),
+        'productos_carrito': productos_carrito if 'productos_carrito' in locals() else None,
     }

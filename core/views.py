@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import json, requests, os, random
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -466,6 +466,60 @@ def agregar_al_carrito(request):
                 carrito_item.save()
 
             return JsonResponse({'mensaje': 'Producto añadido al carrito exitosamente.'}, status=200)
+        except Juego.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+
+################################################################################################################################ VISTA DEL CARRITO
+def checkout(request):
+    conectado_email = request.session.get('conectado_email')  # Obtener el email del usuario conectado
+
+    print(f"Email crudo en sesión: '{conectado_email}'")  # 🔍 Imprimir email como viene
+    print(f"Tipo de email: {type(conectado_email)}")
+
+    if not conectado_email:
+        return redirect('login')  # Redirigir al login si no hay usuario conectado
+
+    # Normalizar el email por seguridad
+    conectado_email = conectado_email.strip().lower()
+    print(f"Email normalizado: '{conectado_email}'")
+
+    # Obtener productos del carrito
+    productos_carrito = Carrito.objects.filter(usuario__email=conectado_email)
+    print(f"Consulta SQL generada: {productos_carrito.query}")  # 🔍 Ver la consulta real
+    print(f"Productos encontrados: {productos_carrito.count()}")
+
+    total_precio = sum(item.precio_total for item in productos_carrito)
+    print(f"Total precio: {total_precio}")
+
+    return render(request, 'checkout.html', {
+        'productos_carrito': productos_carrito,
+        'total_precio': total_precio,
+    })
+
+################################################################################################################################ ELIMINAR DEL CARRITO
+@csrf_exempt
+def eliminar_del_carrito(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            producto_id = data.get('producto_id')
+            conectado_email = request.session.get('conectado_email')  # Obtener el email desde la sesión
+
+            if not conectado_email:
+                return JsonResponse({'error': 'Usuario no conectado.'}, status=401)
+
+            usuario = Usuario.objects.get(email=conectado_email)
+            juego = Juego.objects.get(id_juego=producto_id)
+
+            # Eliminar el producto del carrito
+            Carrito.objects.filter(usuario=usuario, juego=juego).delete()
+
+            return JsonResponse({'mensaje': 'Producto eliminado del carrito exitosamente.'}, status=200)
         except Juego.DoesNotExist:
             return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
         except Exception as e:
