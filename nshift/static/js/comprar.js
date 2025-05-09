@@ -1,9 +1,15 @@
 // Este script maneja la funcionalidad de agregar productos al carrito 
-$(document).ready(function() {
-    const $botonesComprar = $('.btn-comprar');
+$(document).ready(function () {
+    const conectadoRolId = parseInt($('#conectado-rol-id').val()); // Obtener el rol del usuario desde un input oculto
 
-    $botonesComprar.on('click', function(event) {
+    $('.btn-comprar').on('click', function (event) {
         event.preventDefault();
+
+        // Validar si el usuario tiene rol 1 o 3
+        if (conectadoRolId === 1 || conectadoRolId === 3) {
+            alert('No se puede comprar con cuenta administrador/desarrollador.');
+            return;
+        }
 
         const productoId = $(this).data('producto-id');
         const csrfToken = $('[name=csrfmiddlewaretoken]').val();
@@ -16,13 +22,13 @@ $(document).ready(function() {
             },
             contentType: 'application/json',
             data: JSON.stringify({ producto_id: productoId }),
-            success: function(data) {
+            success: function (data) {
                 if (data.mensaje) {
                     alert(data.mensaje);
                     location.reload(); // Recargar la página para reflejar los cambios
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 const response = xhr.responseJSON;
                 if (response && response.error) {
                     alert(response.error); // Mostrar el mensaje de error

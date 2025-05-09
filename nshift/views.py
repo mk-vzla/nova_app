@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from core.models import Usuario, Juego
+from core.models import Usuario, Juego, Carrito
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404

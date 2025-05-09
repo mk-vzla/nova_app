@@ -46,6 +46,7 @@
 
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% include 'includes/buscar_form.html' %}
                     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
                     <li class="nav-item separar_Vert">
                         <a href="{% url 'administrador' %}">

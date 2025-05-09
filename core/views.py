@@ -444,9 +444,14 @@ def agregar_al_carrito(request):
             data = json.loads(request.body)
             producto_id = data.get('producto_id')
             conectado_email = request.session.get('conectado_email')  # Obtener el email desde la sesión
+            conectado_rol_id = request.session.get('conectado_rol_id')  # Obtener el rol del usuario conectado
 
             if not conectado_email:
                 return JsonResponse({'error': 'Usuario no conectado.'}, status=401)
+
+            # Validar si el usuario tiene rol 1 o 3
+            if conectado_rol_id in [1, 3]:
+                return JsonResponse({'error': 'No se puede comprar con cuenta administrador/desarrollador.'}, status=403)
 
             usuario = Usuario.objects.get(email=conectado_email)
             juego = Juego.objects.get(id_juego=producto_id)
@@ -583,3 +588,15 @@ def mis_compras_realizadas(request):
     compras = Compra.objects.filter(usuario__email=conectado_email).select_related('juego', 'juego__plataforma')
 
     return render(request, 'mis_compras.html', {'compras': compras})
+
+
+
+################################################################################################################################ BUSCAR JUEGOS
+def buscar_juegos(request):
+    query = request.GET.get('q', '').strip()
+    juegos = []
+
+    if len(query) >= 3:  # Validar que el mínimo de caracteres sea 3
+        juegos = Juego.objects.filter(nombre_juego__icontains=query)
+
+    return render(request, 'resultados.html', {'juegos': juegos, 'query': query})
