@@ -116,3 +116,11 @@ $(document).ready(function() {
         });
     });
 });
+
+
+$(document).ready(function () {
+    // Manejar el botón "MINI GAME"
+    $('#btn-mini-game').on('click', function () {
+        window.location.href = '/mini_juego/';
+    });
+});

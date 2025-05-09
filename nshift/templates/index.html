@@ -197,9 +197,10 @@
         <script src="{% static 'js/comprar.js' %}"></script>
     </footer>
 </body>
-
-<button type="button" class="btn btn-outline-light position-fixed bottom-0 end-0 m-4" style="z-index: 1055;"
-    onclick="window.location.href='{% url 'mini_juego' %}';">MINI GAME
+{% url 'mini_juego' as mini_juego_url %}
+<p>Resolved URL: {{ mini_juego_url }}</p>
+<button id="btn-mini-game" type="button" class="btn btn-outline-light position-fixed bottom-0 end-0 m-4" style="z-index: 1055;">
+    MINI GAME
 </button>
 
 </html>

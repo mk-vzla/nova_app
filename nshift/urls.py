@@ -22,7 +22,7 @@ urlpatterns = [
     path('desconectarse', desconectarse, name='desconectarse'),
     path('inventario/', mostrar_inventario, name='mostrar_inventario'),
     path('eliminar_juego/<int:id_juego>/', eliminar_juego, name='eliminar_juego'),
-    path('mini_juego', mini_juego, name='mini_juego'),
+    path('mini_juego/', mini_juego, name='mini_juego'),
     path('reiniciar_juego/', reiniciar_juego, name='reiniciar_juego'),
     path('api_nova', mostrar_api_nova, name='mostrar_api_nova'),
 ]
