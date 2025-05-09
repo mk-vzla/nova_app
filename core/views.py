@@ -3,7 +3,7 @@ import json, requests, os, random
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
-from .models import Usuario, Rol, Categoria, Plataforma, Juego
+from .models import Usuario, Rol, Categoria, Plataforma, Juego, Carrito
 from django.contrib.auth.hashers import check_password
 from .contra_aleatoria import generar_contraseña_aleatoria
 from urllib.parse import quote
@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models_copy import CopiaJuego, AliasSugerido
 from .serializers import CopiaJuegoSerializer, AliasSugeridoSerializer
-from .models_copy import AliasSugerido
+
 
 @csrf_exempt
 def registrar(request):
@@ -65,14 +65,14 @@ def iniciar_sesion(request):
         
         try:
             usuario = Usuario.objects.get(alias=alias)
-            # Verificar la contraseña usando check_password
             if check_password(password, usuario.password):
-                # Guardar Alias de la sesión y su rol_id, forzando conectado_rol_id a int
+                # Guardar datos en la sesión
                 request.session['conectado_alias'] = usuario.alias
                 request.session['conectado_rol_id'] = int(usuario.rol.identificador)
                 request.session['conectado_nombre_completo'] = usuario.nombre_completo
                 request.session['conectado_direccion'] = usuario.direccion
                 request.session['conectado_password'] = data.get('password')
+                request.session['conectado_email'] = usuario.email  # Asegúrate de guardar el email aquí
 
                 return JsonResponse({'success': True, 'mensaje': 'Inicio de sesión exitoso.'})
             else:
@@ -434,3 +434,40 @@ def obtener_alias_sugeridos(request):
     alias_aleatorios = random.sample(list(alias_disponibles), min(len(alias_disponibles), 5))
     
     return JsonResponse({'alias_sugeridos': alias_aleatorios})
+
+
+
+################################################################################################################################ AGREGAR AL CARRITO
+@csrf_exempt
+def agregar_al_carrito(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            producto_id = data.get('producto_id')
+            conectado_email = request.session.get('conectado_email')  # Obtener el email desde la sesión
+
+            if not conectado_email:
+                return JsonResponse({'error': 'Usuario no conectado.'}, status=401)
+
+            usuario = Usuario.objects.get(email=conectado_email)
+            juego = Juego.objects.get(id_juego=producto_id)
+
+            # Verificar si el producto ya está en el carrito
+            carrito_item, created = Carrito.objects.get_or_create(
+                usuario=usuario,
+                juego=juego,
+                defaults={'cantidad': 1, 'precio_total': juego.precio}
+            )
+
+            if not created:
+                # Si ya existe, incrementar la cantidad
+                carrito_item.cantidad += 1
+                carrito_item.precio_total = carrito_item.cantidad * juego.precio
+                carrito_item.save()
+
+            return JsonResponse({'mensaje': 'Producto añadido al carrito exitosamente.'}, status=200)
+        except Juego.DoesNotExist:
+            return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)

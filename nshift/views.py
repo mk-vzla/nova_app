@@ -15,7 +15,9 @@ def inicio(request):
     conectado_nombre_completo = request.session.get('conectado_nombre_completo', None)  
     conectado_direccion = request.session.get('conectado_direccion', None)  
     conectado_password = request.session.get('conectado_password', None)  
-    return render(request, 'index.html', {'conectado_alias': conectado_alias, 'conectado_rol_id': conectado_rol_id, 'conectado_nombre_completo': conectado_nombre_completo, 'conectado_direccion': conectado_direccion, 'conectado_password': conectado_password})
+    return render(request, 'index.html', {'conectado_alias': conectado_alias, 'conectado_rol_id': conectado_rol_id, 
+                                          'conectado_nombre_completo': conectado_nombre_completo, 'conectado_direccion': conectado_direccion,
+                                            'conectado_password': conectado_password})
 
 def accion (request):
     return render(request, 'accion.html')
