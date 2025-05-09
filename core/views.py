@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-import json, requests, os, random
+import json, requests, os, random, string
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
-from .models import Usuario, Rol, Categoria, Plataforma, Juego, Carrito
+from .models import Usuario, Rol, Categoria, Plataforma, Juego, Carrito, Compra
 from django.contrib.auth.hashers import check_password
 from .contra_aleatoria import generar_contraseña_aleatoria
 from urllib.parse import quote
@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models_copy import CopiaJuego, AliasSugerido
 from .serializers import CopiaJuegoSerializer, AliasSugeridoSerializer
+from django.utils.timezone import now
 
 
 @csrf_exempt
@@ -283,7 +284,6 @@ def enviar_correo_recuperacion(request):
                 return JsonResponse({'error': 'El campo email es obligatorio.'}, status=400)
 
             if Usuario.objects.filter(email=email).exists():
-                import random, string
                 # Generar una nueva contraseña aleatoria
                 usuario = Usuario.objects.get(email=email)
 
@@ -452,24 +452,25 @@ def agregar_al_carrito(request):
             usuario = Usuario.objects.get(email=conectado_email)
             juego = Juego.objects.get(id_juego=producto_id)
 
-            # Verificar si el producto ya está en el carrito
-            carrito_item, created = Carrito.objects.get_or_create(
+            # Verificar si el usuario ya tiene el juego en el carrito
+            if Carrito.objects.filter(usuario=usuario, juego=juego).exists():
+                return JsonResponse({'error': 'Ya tienes este juego en tu carrito. Solo puedes añadir una unidad.'}, status=400)
+
+            # Agregar el juego al carrito
+            Carrito.objects.create(
                 usuario=usuario,
                 juego=juego,
-                defaults={'cantidad': 1, 'precio_total': juego.precio}
+                cantidad=1,
+                precio_total=juego.precio
             )
 
-            if not created:
-                # Si ya existe, incrementar la cantidad
-                carrito_item.cantidad += 1
-                carrito_item.precio_total = carrito_item.cantidad * juego.precio
-                carrito_item.save()
+            return JsonResponse({'mensaje': 'Juego añadido al carrito exitosamente.'}, status=200)
 
-            return JsonResponse({'mensaje': 'Producto añadido al carrito exitosamente.'}, status=200)
         except Juego.DoesNotExist:
-            return JsonResponse({'error': 'Producto no encontrado.'}, status=404)
+            return JsonResponse({'error': 'El juego no existe.'}, status=404)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 
@@ -479,19 +480,15 @@ def checkout(request):
     conectado_email = request.session.get('conectado_email')  # Obtener el email del usuario conectado
 
     print(f"Email crudo en sesión: '{conectado_email}'")  # 🔍 Imprimir email como viene
-    print(f"Tipo de email: {type(conectado_email)}")
 
     if not conectado_email:
         return redirect('login')  # Redirigir al login si no hay usuario conectado
 
     # Normalizar el email por seguridad
     conectado_email = conectado_email.strip().lower()
-    print(f"Email normalizado: '{conectado_email}'")
 
     # Obtener productos del carrito
     productos_carrito = Carrito.objects.filter(usuario__email=conectado_email)
-    print(f"Consulta SQL generada: {productos_carrito.query}")  # 🔍 Ver la consulta real
-    print(f"Productos encontrados: {productos_carrito.count()}")
 
     total_precio = sum(item.precio_total for item in productos_carrito)
     print(f"Total precio: {total_precio}")
@@ -525,3 +522,66 @@ def eliminar_del_carrito(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+
+################################################################################################################################ PROCESAR PAGO
+@csrf_exempt
+def proceder_al_pago(request):
+    if request.method == 'POST':
+        try:
+            conectado_email = request.session.get('conectado_email')  # Obtener el email del usuario conectado
+            if not conectado_email:
+                return JsonResponse({'error': 'Usuario no conectado.'}, status=401)
+
+            usuario = Usuario.objects.get(email=conectado_email)
+            carrito_items = Carrito.objects.filter(usuario=usuario)
+
+            if not carrito_items.exists():
+                return JsonResponse({'error': 'El carrito está vacío.'}, status=400)
+
+            # Procesar cada producto en el carrito
+            for item in carrito_items:
+                juego = item.juego
+
+                # Verificar si hay suficiente cantidad disponible
+                if juego.cantidad_disponible < item.cantidad:
+                    return JsonResponse({'error': f'No hay suficiente stock para el juego {juego.nombre_juego}.'}, status=400)
+
+                # Restar la cantidad comprada del stock
+                juego.cantidad_disponible -= item.cantidad
+                juego.save()
+
+                # Generar un código de activación único
+                codigo_activacion = f"{juego.plataforma.nombre_plataforma[:3].upper()}-{random.randint(10000, 99999)}-{''.join(random.choices(string.ascii_uppercase, k=5))}"
+
+                # Crear un registro en el historial de compras
+                Compra.objects.create(
+                    usuario=usuario,
+                    juego=juego,
+                    codigo_activacion=codigo_activacion,
+                    cantidad_compra=item.cantidad,
+                    precio_total=item.precio_total,
+                    fecha_compra=now()
+                )
+
+            # Eliminar los productos del carrito
+            carrito_items.delete()
+
+            return JsonResponse({'mensaje': 'Compra realizada exitosamente.'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+
+
+################################################################################################################################ VISTA DE MIS COMPRAS
+def mis_compras_realizadas(request):
+    conectado_email = request.session.get('conectado_email')  # Obtener el email del usuario conectado
+    if not conectado_email:
+        return redirect('login')  # Redirigir al login si no hay usuario conectado
+
+    # Obtener todas las compras del usuario conectado
+    compras = Compra.objects.filter(usuario__email=conectado_email).select_related('juego', 'juego__plataforma')
+
+    return render(request, 'mis_compras.html', {'compras': compras})
