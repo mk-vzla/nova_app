@@ -94,10 +94,6 @@
         <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
     </header>
 
-    <div>
-        <h4>Historial de compras</h4>
-    </div>
-
 <div class="container my-5">
     <h4 class="text-center">Historial de Compras</h4>
     <table class="table table-bordered">
@@ -109,6 +105,7 @@
                 <th>Código de Activación</th>
                 <th>Producto</th>
                 <th>Precio de Compra</th>
+                <th>Fecha y Hora de Compra</th>
             </tr>
         </thead>
         <tbody>
@@ -121,11 +118,14 @@
                     <td>{{ compra.codigo_activacion }}</td>
                     <td><img src="{{ compra.juego.imagen }}" alt="{{ compra.juego.nombre_juego }}" width="80"></td>
                     <td>${{ compra.precio_total }}</td>
+                    <td>{{ compra.fecha_compra|date:"d/m/Y H:i" }}
+                        <h5>dd/mm/yyyy</h5>
+                    </td>
                 </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="6" class="text-center text-muted">No tienes compras registradas.</td>
+                    <td colspan="7" class="text-center text-muted">No tienes compras registradas.</td>
                 </tr>
             {% endif %}
         </tbody>
