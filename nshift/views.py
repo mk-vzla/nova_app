@@ -26,7 +26,13 @@ def administrador(request):
     return render(request, 'administrador.html')
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    conectado_email = request.session.get('conectado_email', None)
+    productos_carrito = Carrito.objects.select_related('juego__plataforma').filter(usuario__email=conectado_email)
+    total_precio = sum(producto.juego.precio for producto in productos_carrito)
+    return render(request, 'checkout.html', {
+        'productos_carrito': productos_carrito,
+        'total_precio': total_precio,
+    })
 
 def free_to_play(request):
     return render(request, 'free_to_play.html')
@@ -100,7 +106,7 @@ def mostrar_inventario(request):
 
     # Obtener los juegos ya ordenados
     juegos = (Juego.objects
-              .select_related('categoria')
+              .select_related('categoria', 'plataforma')  # Include platform
               .order_by(f'{prefix}{sort_field}'))
 
     return render(request, 'inventario.html', {
@@ -124,27 +130,27 @@ def eliminar_juego(request, id_juego):
 # funcion para mostrar juegos categorías; terror, acción, mundo abierto, free to play, supervivencia.
 def mostrar_terror(request):
     # Filtrar juegos por la categoría "Terror" y con cantidad disponible mayor a 0
-    juegos = Juego.objects.filter(categoria__nombre_categoria='Terror', cantidad_disponible__gt=0)
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Terror', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'terror.html', {'juegos': juegos})
 
 def mostrar_accion(request):
     # Filtrar juegos por la categoría "Acción" y con cantidad disponible mayor a 0
-    juegos = Juego.objects.filter(categoria__nombre_categoria='Acción', cantidad_disponible__gt=0)
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Acción', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'accion.html', {'juegos': juegos})
 
 def mostrar_mundo_abierto(request):
     # Filtrar juegos por la categoría "Mundo Abierto" y con cantidad disponible mayor a 0
-    juegos = Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto', cantidad_disponible__gt=0)
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'mundo_abierto.html', {'juegos': juegos})
 
 def mostrar_free_to_play(request):
     # Filtrar juegos por la categoría "Free To Play" y con cantidad disponible mayor a 0
-    juegos = Juego.objects.filter(categoria__nombre_categoria='Free To Play', cantidad_disponible__gt=0)
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Free To Play', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'free_to_play.html', {'juegos': juegos})
 
 def mostrar_supervivencia(request):
     # Filtrar juegos por la categoría "Supervivencia" y con cantidad disponible mayor a 0
-    juegos = Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0)
+    juegos = Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'supervivencia.html', {'juegos': juegos})
 
 # Mostrar 1 juego de cada categoría en la página de inicio

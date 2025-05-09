@@ -174,7 +174,6 @@ def agregar_producto(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
-            print("Datos recibidos:", data)
 
             # Validación de campos obligatorios
             campos_obligatorios = ['categoria', 'plataforma', 'nombre', 'descripcion', 'cantidad', 'precio']
@@ -479,8 +478,6 @@ def agregar_al_carrito(request):
 def checkout(request):
     conectado_email = request.session.get('conectado_email')  # Obtener el email del usuario conectado
 
-    print(f"Email crudo en sesión: '{conectado_email}'")  # 🔍 Imprimir email como viene
-
     if not conectado_email:
         return redirect('login')  # Redirigir al login si no hay usuario conectado
 
@@ -491,8 +488,7 @@ def checkout(request):
     productos_carrito = Carrito.objects.filter(usuario__email=conectado_email)
 
     total_precio = sum(item.precio_total for item in productos_carrito)
-    print(f"Total precio: {total_precio}")
-
+   
     return render(request, 'checkout.html', {
         'productos_carrito': productos_carrito,
         'total_precio': total_precio,
@@ -545,6 +541,8 @@ def proceder_al_pago(request):
                 juego = item.juego
 
                 # Verificar si hay suficiente cantidad disponible
+                if juego.cantidad_disponible == 0:
+                    return JsonResponse({'error': f'Producto SIN STOCK Pago Revertido: {juego.nombre_juego}.'}, status=400)
                 if juego.cantidad_disponible < item.cantidad:
                     return JsonResponse({'error': f'No hay suficiente stock para el juego {juego.nombre_juego}.'}, status=400)
 

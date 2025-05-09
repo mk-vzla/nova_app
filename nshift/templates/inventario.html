@@ -205,6 +205,9 @@
                         {% endif %}
                       </th>
                   
+                      <!-- Plataforma -->
+                      <th>Plataforma</th>
+                  
                       <!-- Columnas restantes -->
                       <th>Imagen</th>
                       <th>Borrar</th>
@@ -222,6 +225,7 @@
                         <td>{{ juego.descripcion }}</td>
                         <td class="text-center">${{ juego.precio }}</td>
                         <td class="text-center">{{ juego.cantidad_disponible }}</td>
+                        <td class="text-center">{{ juego.plataforma.nombre_plataforma }}</td>
                         <td class="text-center">
                             <img src="{{ juego.imagen }}" alt="{{ juego.nombre_juego }}" class="img-thumbnail"
                                 width="50">
@@ -237,7 +241,7 @@
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="7" class="text-center text-muted">No hay productos en el inventario.</td>
+                        <td colspan="8" class="text-center text-muted">No hay productos en el inventario.</td>
                     </tr>
                     {% endif %}
                 </tbody>

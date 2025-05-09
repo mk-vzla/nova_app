@@ -109,8 +109,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ item.juego.nombre_juego }}</h5>
                         <p class="card-text">Cantidad: {{ item.cantidad }}</p>
+                        <p class="card-text">Plataforma: {{ item.juego.plataforma.nombre_plataforma }}</p>
                         <p class="card-text">Precio Unitario: ${{ item.juego.precio }}</p>
-                        <p class="card-text">Precio Total: ${{ item.precio_total }}</p>
                         <button class="btn btn-sm btn-danger btn-eliminar" data-producto-id="{{ item.juego.id_juego }}">Eliminar</button>
                     </div>
                 </div>

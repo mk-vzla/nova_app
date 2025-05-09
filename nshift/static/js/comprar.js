@@ -1,3 +1,4 @@
+// Este script maneja la funcionalidad de agregar productos al carrito 
 $(document).ready(function() {
     const $botonesComprar = $('.btn-comprar');
 
@@ -34,7 +35,7 @@ $(document).ready(function() {
 });
 
 
-
+// Este script maneja la funcionalidad de eliminar productos del carrito
 $(document).ready(function() {
     console.log('Script cargado correctamente'); // Depuración
 
@@ -81,9 +82,9 @@ $(document).ready(function() {
 });
 
 
-
-$(document).ready(function() {
-    $('.btn-proceder-pago').on('click', function(event) {
+// Este script maneja la funcionalidad de proceder al pago
+$(document).ready(function () {
+    $('.btn-proceder-pago').on('click', function (event) {
         event.preventDefault();
 
         const confirmacion = confirm('¿Se realizó el pago?');
@@ -100,7 +101,7 @@ $(document).ready(function() {
             headers: {
                 'X-CSRFToken': csrfToken
             },
-            success: function(data) {
+            success: function (data) {
                 console.log('Respuesta del servidor:', data);
                 if (data.mensaje) {
                     alert(data.mensaje);
@@ -109,15 +110,20 @@ $(document).ready(function() {
                     alert(`Error: ${data.error}`);
                 }
             },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                alert('Ocurrió un error al procesar el pago.');
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.error) {
+                    alert(response.error); // Mostrar el mensaje de error específico del servidor
+                } else {
+                    alert('Ocurrió un error al procesar el pago.');
+                }
             }
         });
     });
 });
 
 
+// Este script maneja la funcionalidad del botón "MINI GAME"
 $(document).ready(function () {
     // Manejar el botón "MINI GAME"
     $('#btn-mini-game').on('click', function () {
