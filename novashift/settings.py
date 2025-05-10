@@ -85,8 +85,15 @@ WSGI_APPLICATION = 'novashift.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # Ruta al archivo SQLite
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'defaultdb',
+        'USER': 'nova_admin',
+        'PASSWORD': os.environ.get('MYSQL_NOVA_ADMIN_PW', 'default_password'), 
+        'HOST': 'mysql-2fd182bc-novashift.g.aivencloud.com',
+        'PORT': '24542',
+        'OPTIONS': {
+            'ssl': {'ssl-mode': 'REQUIRED'}
+        },
     }
 }
 
