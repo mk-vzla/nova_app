@@ -13,6 +13,7 @@ from rest_framework import status
 from .models_copy import CopiaJuego, AliasSugerido
 from .serializers import CopiaJuegoSerializer, AliasSugeridoSerializer
 from django.utils.timezone import now
+from datetime import timedelta
 
 
 @csrf_exempt
@@ -614,7 +615,7 @@ def compras_usuario(request, email):
                     'juego': compra.juego.nombre_juego,
                     'cantidad': compra.cantidad_compra,
                     'precio_total': compra.precio_total,
-                    'fecha_compra': compra.fecha_compra.strftime('%Y-%m-%d %H:%M:%S'),
+                    'fecha_compra': (compra.fecha_compra - timedelta(hours=4)).strftime('%Y-%m-%d %H:%M:%S'),
                 }
                 for compra in compras
             ]
