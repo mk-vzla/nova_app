@@ -96,40 +96,35 @@
 
 <div class="container my-5">
     <h4 class="text-center">Historial de Compras</h4>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Código Compra</th>
-                <th>Nombre Producto</th>
-                <th>Plataforma</th>
-                <th>Código de Activación</th>
-                <th>Producto</th>
-                <th>Precio de Compra</th>
-                <th>Fecha y Hora de Compra</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if compras %}
-                {% for compra in compras %}
-                <tr>
-                    <td>{{ compra.id_compra }}</td>
-                    <td>{{ compra.juego.nombre_juego }}</td>
-                    <td>{{ compra.juego.plataforma.nombre_plataforma }}</td>
-                    <td>{{ compra.codigo_activacion }}</td>
-                    <td><img src="{{ compra.juego.imagen }}" alt="{{ compra.juego.nombre_juego }}" width="80"></td>
-                    <td>${{ compra.precio_total }}</td>
-                    <td>{{ compra.fecha_compra|date:"d/m/Y H:i" }}
-                        <h5>dd/mm/yyyy</h5>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="7" class="text-center text-muted">No tienes compras registradas.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
+    <div class="row">
+        {% if compras %}
+            {% for compra in compras %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ compra.juego.imagen }}" alt="{{ compra.juego.nombre_juego }}" width="80">
+                    </div>
+                    <div class="card-body text-start">
+                        <h5 class="card-title">{{ compra.juego.nombre_juego }}</h5>
+                        <p class="card-text">
+                            <strong>Plataforma:</strong> {{ compra.juego.plataforma.nombre_plataforma }}<br>
+                            <strong>Código de Activación:</strong> {{ compra.codigo_activacion }}<br>
+                            <strong>Precio de Compra:</strong> ${{ compra.precio_total }}<br>
+                            <strong>Fecha y Hora de Compra:</strong> {{ compra.fecha_compra|date:"d/m/Y H:i" }}
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Código Compra: {{ compra.id_compra }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center text-muted">
+                <p>No tienes compras registradas.</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
 
     <footer>
