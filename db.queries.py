@@ -1,7 +1,7 @@
 import os
 import django
 
-# Configurar el entorno de Django
+# Configurar el entorno de Django 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'novashift.settings')
 django.setup()
 
