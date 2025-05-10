@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import json, requests, os, random, string
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -600,3 +600,29 @@ def buscar_juegos(request):
         juegos = Juego.objects.filter(nombre_juego__icontains=query)
 
     return render(request, 'resultados.html', {'juegos': juegos, 'query': query})
+
+
+################################################################################################################################ COMPRAS DEL USUARIO
+@csrf_exempt
+def compras_usuario(request, email):
+    if request.method == 'GET':
+        try:
+            usuario = get_object_or_404(Usuario, email=email)
+            compras = Compra.objects.filter(usuario=usuario).select_related('juego')
+
+            compras_data = [
+                {
+                    'id_compra': compra.id_compra,
+                    'usuario': compra.usuario.email,
+                    'juego': compra.juego.nombre_juego,
+                    'cantidad': compra.cantidad_compra,
+                    'precio_total': compra.precio_total,
+                    'fecha_compra': compra.fecha_compra.strftime('%Y-%m-%d %H:%M:%S'),
+                }
+                for compra in compras
+            ]
+
+            return JsonResponse({'compras': compras_data}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)

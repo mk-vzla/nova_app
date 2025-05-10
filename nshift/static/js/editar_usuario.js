@@ -99,3 +99,43 @@ $(document).ready(function () {
         return '';
     }
 });
+
+
+
+// Mostrar las compras del usuario
+$('.btn-compras').on('click', function () {
+    const email = $(this).data('email'); // Obtener el email del usuario
+
+    // Hacer una solicitud AJAX para obtener las compras
+    $.ajax({
+        url: `/core/compras/${email}/`,
+        type: 'GET',
+        success: function (data) {
+            const compras = data.compras;
+            const tablaCompras = $('#tabla-compras');
+            tablaCompras.empty(); // Limpiar la tabla
+
+            if (compras.length > 0) {
+                compras.forEach(compra => {
+                    const fila = `
+                        <tr>
+                            <td>${compra.id_compra}</td>
+                            <td>${compra.usuario}</td>
+                            <td>${compra.juego}</td>
+                            <td>${compra.cantidad}</td>
+                            <td>${compra.precio_total}</td>
+                            <td>${compra.fecha_compra}</td>
+                        </tr>
+                    `;
+                    tablaCompras.append(fila);
+                });
+            } else {
+                tablaCompras.append('<tr><td colspan="6" class="text-center">No hay compras registradas.</td></tr>');
+            }
+        },
+        error: function (xhr) {
+            console.error('Error:', xhr);
+            alert('Ocurrió un error al obtener las compras.');
+        }
+    });
+});

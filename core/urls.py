@@ -26,4 +26,5 @@ urlpatterns = [
     path('proceder_al_pago/', views.proceder_al_pago, name='proceder_al_pago'),
     path('mis_compras/', views.mis_compras_realizadas, name='mis_compras'),
     path('buscar/', views.buscar_juegos, name='buscar_juegos'),
+    path('compras/<str:email>/', views.compras_usuario, name='compras_usuario'),
 ]

@@ -132,6 +132,10 @@
                                     Ver/Editar
                                 </button>
                                 {% endif %}
+                                <button class="btn btn-sm btn-info btn-compras" data-email="{{ usuario.email }}" data-bs-toggle="modal"
+                                    data-bs-target="#modalComprasUsuario">
+                                    Compras
+                                </button>
                                 {% if usuario.rol_id == 1 or usuario.rol_id == 2 %}
                                 <button class="btn btn-sm btn-danger btn-eliminar" data-email="{{ usuario.email }}">
                                     Eliminar
@@ -145,6 +149,12 @@
                                 data-direccion="{{ usuario.direccion }}" data-rol="{{ usuario.rol.identificador }}">
                                 Ver/Editar
                             </button>
+                            {% if usuario.rol_id == 2 %}
+                            <button class="btn btn-sm btn-info btn-compras" data-email="{{ usuario.email }}" data-bs-toggle="modal"
+                                data-bs-target="#modalComprasUsuario">
+                                Compras
+                            </button>
+                            {% endif %}
                             <button class="btn btn-sm btn-danger btn-eliminar" data-email="{{ usuario.email }}">
                                 Eliminar
                             </button>

@@ -1,3 +1,5 @@
 db.sqlite.management.py
 db.sqlite3
 _pycache_/
+db.sqlite3
+*.sqlite3
