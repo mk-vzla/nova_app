@@ -301,7 +301,7 @@ def enviar_correo_recuperacion(request):
                 <html>
                     <p>Se ha solicitado un cambio de contraseña. Si no has solicitado este cambio, ignora este mensaje.</p>
                     <p>Tu contraseña es: <strong>{password}</strong></p>
-                    <p>Puedes iniciar sesión en <a href="http://127.0.0.1:8000/login">Nova Shift</a>.</p>
+                    <p>Puedes iniciar sesión en <a href="https://nova-app-zlh6.onrender.com/login">Nova Shift</a>.</p>
                     <p>Saludos,<br>Equipo Nova Shift</p>
                 </html>
                 """
