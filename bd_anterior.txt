@@ -1,0 +1,21 @@
+Outlast 2	Escapa de un culto en un entorno rural aislado.	10	9990	https://cdn2.steamgriddb.com/thumb/0e44b6bfd005143da5862c20405e6bf1.jpg	1	5
+God of War Ragnarök	Kratos y Atreus luchan contra dioses nórdicos.	6	69990	https://cdn2.steamgriddb.com/thumb/2ac990c336cb2f55dc06ba3c417dd250.jpg	2	2
+Devil May Cry 5	Ambientada varios años después de Devil May Cry 4, que se estrenó una década antes, la serie regresa con tres personajes jugables, entre ellos el protagonista original y recurrente, Dante y el protagonista de la cuarta entrega, Nero.	8	39990	https://cdn2.steamgriddb.com/thumb/075db2497f6f4b61e6425a314922f98d.jpg	2	5
+The Legend of Zelda: Breath of the Wild	Explora un vasto mundo de Hyrule y rescata a la princesa Zelda.	45	59990	https://cdn2.steamgriddb.com/thumb/121b81f7d167ca2c24fdab4f044048f8.jpg	3	4
+Red Dead Redemption 2	Vive la vida de un forajido en el Salvaje Oeste.	36	59990	https://cdn2.steamgriddb.com/thumb/22774e7dbd2a3030e3e0c0b7381dee3e.jpg	3	3
+Fortnite	Batallas campales con construcción y eventos en constante cambio.	90	0	https://cdn2.steamgriddb.com/thumb/6b41f181551b67d57d104272001e13cb.jpg	4	6
+Apex Legends	Batallas de héroes con habilidades únicas y juego en equipo.	89	0	https://cdn2.steamgriddb.com/thumb/ba14961ae2176d0e7426952d44b846c7.jpg	4	7
+The Forest	Construye refugios y lucha contra caníbales en una isla misteriosa.	19	19990	https://cdn2.steamgriddb.com/thumb/ad8339eea58b10e6dc4e9c719dd3832e.jpg	5	6
+Subnautica	Explora un océano alienígena y sobrevive a criaturas marinas.	14	29990	https://cdn2.steamgriddb.com/thumb/50896c8a37922749110dae272e7a345b.jpg	5	5
+R.E.P.O	Un juego de terror cooperativo basado en la física donde los jugadores evitan monstruos y recogen el botín.	1	1500	https://cdn2.steamgriddb.com/thumb/9ca4292f040b141fd182d5028f27e503.jpg	1	1
+Dead By Deadlight	Muerto para el amanecer.	2	25000	https://cdn2.steamgriddb.com/thumb/e094a58c3495647287f75da5f6a7f6f3.jpg	1	5
+Space Hulk Tactics	Una adaptación fiel del juego de mesa Space Hulk ambientado en el universo de Warhammer 40.000	1	5000	https://cdn2.steamgriddb.com/thumb/f520a8042964ffc9c92a0a2513e2a96c.jpg	2	1
+Path Of Exile	Path of Exile es un juego de acción en línea de PC gratis para jugar Role-Playing Game ambientado en un mundo de fantasía oscura.	100	0	https://cdn2.steamgriddb.com/thumb/57bbcd58a5a7b7e430faf8bbc7932b27.jpg	4	1
+The Last Of Us	Joel y Ellie deben sobrevivir en un mundo post-apocalíptico donde un hongo parasitario mortal infecta el cerebro de la gente en este exclusivo juego de acción-aventura en tercera persona de PS3 de Naughty Dog.	1	19990	https://cdn2.steamgriddb.com/thumb/849d7b8124e44421cf640466299db4dc.jpg	2	6
+Euro Truck Simulator 2	Viaja a través de una versión reducida de Europa como camionero, entregando una variedad de cargas y expandiendo una flota de camiones en esta secuela de la serie principal de simuladores de conducción de camiones de SCS.	1	1000	https://cdn2.steamgriddb.com/thumb/3d5deb1962ceef3debcbc20a311eeac5.jpg	3	2
+Super Mario Odyssey	Super Mario Odyssey	12	15990	https://cdn2.steamgriddb.com/thumb/505870c8848f2d550944bf64008c9472.jpg	2	7
+Mariachi Legends	Lady Death ha elegido al detective Pablo Cruz para investigar un caso y recuperar un poderoso artefacto en el reino de los muertos.	5000	5000	https://www.giantbomb.com/a/uploads/scale_medium/0/1992/3590825-6395182174-libra.jpg	1	4
+Xenoblade Chronicles 3	La tercera entrada de la serie Xenoblade Chronicles reúne los futuros de los juegos anteriores. El mundo de Aionius combina literalmente las masas de tierra de Mechonis y Bionis de Xenoblade y los Titanes de Alrest de Xenoblade 2 para formar un nuevo lugar que alberga a las dos naciones hostiles de Keves y Agnus.	99	5990	https://cdn2.steamgriddb.com/thumb/852fb91791ba2a97611b92ff16264b2a.jpg	2	7
+Resident Evil Village	Sobrevive a horrores en un pueblo misterioso.	1	49990	https://cdn2.steamgriddb.com/thumb/eaf686eb29341fa99d452a595f35714d.jpg	1	1
+Candy Crush Soda	La secuela del popular juego de partidos Candy Crush Saga con todos los nuevos niveles y objetivos.	999	0	https://cdn2.steamgriddb.com/thumb/7633e1dbe126f02957e813af3008b4b2.jpg	4	1
+Hollow Knight	Un juego de aventura de acción de exploración en 2D, desarrollado por Team Cherry.	1	4990	https://www.giantbomb.com/a/uploads/scale_medium/24/240391/3355540-co1rgi.jpg	2	5

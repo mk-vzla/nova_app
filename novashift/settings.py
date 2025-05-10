@@ -79,15 +79,8 @@ WSGI_APPLICATION = 'novashift.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'novapdb',  # nombre del servicio
-        'USER': 'C##novashiftadmin',
-        'PASSWORD': 'NuevaClave123',
-        'HOST': '127.0.0.1',  
-        'PORT': '1521',
-        'OPTIONS': {
-            'service_name': 'novapdb',  # service_name aquí
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # Ruta al archivo SQLite
     }
 }
 
