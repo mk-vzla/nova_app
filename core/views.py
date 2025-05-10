@@ -486,14 +486,11 @@ def checkout(request):
     if not conectado_email:
         return redirect('login')  # Redirigir al login si no hay usuario conectado
 
-    # Normalizar el email por seguridad
-    conectado_email = conectado_email.strip().lower()
-
     # Obtener productos del carrito
     productos_carrito = Carrito.objects.filter(usuario__email=conectado_email)
 
     total_precio = sum(item.precio_total for item in productos_carrito)
-   
+
     return render(request, 'checkout.html', {
         'productos_carrito': productos_carrito,
         'total_precio': total_precio,
