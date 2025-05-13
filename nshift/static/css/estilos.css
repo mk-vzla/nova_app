@@ -239,6 +239,19 @@ table img:hover {
     background-image: none !important;
 }
 
+
+.navbar-nav {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.navbar-nav .nav-link {
+    font-size: clamp(0.75rem, 1vw, 1rem);
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+}
+
+
 .navbar.fixed-top {
     transition: padding 0.3s, height 0.3s, width 0.3s;
     height: 80px;
