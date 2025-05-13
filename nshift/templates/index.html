@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <link rel="icon" href="{% static 'imagenes/nova_icono.ico' %}">
 </head>
-
 <body>
     {% include 'includes/nav_bar.html' %}
     <div class="background-image"></div>
@@ -21,60 +19,77 @@
         <br>
         <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
     </header>
-
     <div>
         <h1>¡Bienvenido a Nova Shift!</h1>
         <p>El sitio donde encontrarás todos tus juegos favoritos</p>
     </div>
 
+
     <div class="container text-center my-5">
-        <h2 class="text-center mb-4 respiracion_neon">Juegos en Oferta</h2>
-            <div id="carouselDestacados" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for par in juegos_pares %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <div class="row justify-content-center">
-                            <!-- Primer juego: siempre visible -->
-                            <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
-                                <div class="card" style="width: 22rem;">
-                                    <img src="{{ par.0.imagen }}" class="card-img-top" alt="{{ par.0.nombre_juego }}" style="object-fit: contain; height: 400px;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">{{ par.0.nombre_juego }}</h5>
-                                        <p class="card-text">{{ par.0.descripcion|truncatewords:20 }}</p>
-                                        <p class="card-text"><strong>Plataforma:</strong> {{ par.0.plataforma.nombre_plataforma }}</p>
-                                        <h4>${{ par.0.precio }}</h4>
-                                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ par.0.id_juego }}">Comprar</a>
-                                    </div>
+        <h2 class="mb-4 respiracion_neon">🥳¡Ofertas!🎉</span></h2>
+        {# CAROUSEL DESKTOP: 2 cards por slide (md en adelante) #}
+        <div id="carouselDesktop" class="carousel slide d-none d-md-block" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for pareja in juegos_pares %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center">
+                        {% for juego in pareja %}
+                        <div class="col-6 d-flex justify-content-center">
+                            <div class="card">
+                                <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 350px;">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                                    <p class="card-text">{{ juego.descripcion|truncatewords:15 }}</p>
+                                    <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
+                                    <h4>${{ juego.precio }}</h4>
+                                    <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
                                 </div>
                             </div>
-                            <!-- Segundo juego: solo visible en PC -->
-                            {% if par|length > 1 %}
-                            <div class="col-12 col-md-6 d-none d-md-flex justify-content-center mb-3 mb-md-0">
-                                <div class="card" style="width: 22rem;">
-                                    <img src="{{ par.1.imagen }}" class="card-img-top" alt="{{ par.1.nombre_juego }}" style="object-fit: contain; height: 400px;">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">{{ par.1.nombre_juego }}</h5>
-                                        <p class="card-text">{{ par.1.descripcion|truncatewords:20 }}</p>
-                                        <p class="card-text"><strong>Plataforma:</strong> {{ par.1.plataforma.nombre_plataforma }}</p>
-                                        <h4>${{ par.1.precio }}</h4>
-                                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ par.1.id_juego }}">Comprar</a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-                <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
+                {% endfor %}
             </div>
+            <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+        {# CAROUSEL MOBILE: 1 card por slide (sm hacia abajo) #}
+        <div id="carouselMobile" class="carousel slide d-block d-md-none" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for solo in juegos_uno %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="d-flex justify-content-center px-3">
+                        {% with juego=solo.0 %}
+                        <div class="card">
+                            <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 350px;">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                                <p class="card-text">{{ juego.descripcion|truncatewords:15 }}</p>
+                                <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
+                                <h4>${{ juego.precio }}</h4>
+                                <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
+                            </div>
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
         </div>
     </div>
 
@@ -109,11 +124,14 @@
         <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
         <script src="{% static 'js/comprar.js' %}"></script>
     </footer>
-</body>
-{% url 'mini_juego' as mini_juego_url %}
-<p>Resolved URL: {{ mini_juego_url }}</p>
-<button id="btn-mini-game" type="button" class="btn btn-outline-light position-fixed bottom-0 end-0 m-4" style="z-index: 1055;">
-    MINI GAME
-</button>
+    <!-- Modal para mensajes de compra -->
+    {% include 'includes/modal_comprar.html' %}
 
+    {% url 'mini_juego' as mini_juego_url %}
+
+    <p>Resolved URL: {{ mini_juego_url }}</p>
+    <button id="btn-mini-game" type="button" class="btn btn-outline-light position-fixed bottom-0 end-0 m-4" style="z-index: 1055;">
+        MINI GAME
+    </button>
+</body>
 </html>

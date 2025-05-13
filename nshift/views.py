@@ -155,21 +155,36 @@ def mostrar_supervivencia(request):
 
 
 # Mostrar 1 juego de cada categoría en la página de inicio
+from itertools import zip_longest
 def mostrar_juegos_inicio(request):
-    juegos_terror = list(Juego.objects.filter(categoria__nombre_categoria='Terror', cantidad_disponible__gt=0)[:1])
-    juegos_accion = list(Juego.objects.filter(categoria__nombre_categoria='Acción', cantidad_disponible__gt=0)[:1])
-    juegos_mundo_abierto = list(Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto', cantidad_disponible__gt=0)[:1])
-    juegos_supervivencia = list(Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0)[:1])
+    categorias = ['Terror', 'Acción', 'Mundo Abierto', 'Supervivencia']
+    juegos_qs = (
+        Juego.objects
+        .filter(categoria__nombre_categoria__in=categorias, cantidad_disponible__gt=0)
+        .select_related('plataforma', 'categoria')
+        .order_by('categoria__nombre_categoria', 'id_juego')
+    )
 
-    # Unir todas las listas
-    juegos_todos = juegos_terror + juegos_accion + juegos_mundo_abierto + juegos_supervivencia
+    juegos_por_categoria = {}
+    for juego in juegos_qs:
+        cat = juego.categoria.nombre_categoria
+        if cat not in juegos_por_categoria:
+            juegos_por_categoria[cat] = juego
 
-    # Agrupar de a 2
-    juegos_pares = [juegos_todos[i:i+2] for i in range(0, len(juegos_todos), 2)]
+    juegos_todos = [juegos_por_categoria[cat] for cat in categorias if cat in juegos_por_categoria][:4]
+
+    def chunk(lista, n):
+        return [lista[i:i+n] for i in range(0, len(lista), n)]
+
+    juegos_pares = chunk(juegos_todos, 2)   # [[j1,j2], [j3,j4]]
+    juegos_uno  = [[j] for j in juegos_todos]  # [[j1],[j2],[j3],[j4]]
 
     return render(request, 'index.html', {
         'juegos_pares': juegos_pares,
+        'juegos_uno':   juegos_uno,
     })
+
+
 
 
 ################################################################################################# Mini Juego API

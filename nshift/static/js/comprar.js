@@ -1,4 +1,23 @@
 // Este script maneja la funcionalidad de agregar productos al carrito 
+
+// Función para mostrar el modal de mensajes de compra
+function mostrarModalCompra(mensaje, titulo = "Información", reload = false) {
+    $('#modalMensajeCompraLabel').text(titulo);
+    $('#modalMensajeCompraBody').html(mensaje);
+    // Si reload es true, recarga al cerrar el modal
+    if (reload) {
+        $('#modalMensajeCompraFooter').html('<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnCerrarModalCompra">OK</button>');
+        $('#modalMensajeCompra').off('hidden.bs.modal').on('hidden.bs.modal', function () {
+            location.reload();
+        });
+    } else {
+        $('#modalMensajeCompraFooter').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+        $('#modalMensajeCompra').off('hidden.bs.modal');
+    }
+    const modal = new bootstrap.Modal(document.getElementById('modalMensajeCompra'));
+    modal.show();
+}
+
 $(document).ready(function () {
     const conectadoRolId = parseInt($('#conectado-rol-id').val()); // Obtener el rol del usuario desde un input oculto
 
@@ -7,7 +26,7 @@ $(document).ready(function () {
 
         // Validar si el usuario tiene rol 1 o 3
         if (conectadoRolId === 1 || conectadoRolId === 3) {
-            alert('No se puede comprar con cuenta administrador/desarrollador.');
+            mostrarModalCompra('No se puede comprar con cuenta administrador/desarrollador.', 'Acceso restringido');
             return;
         }
 
@@ -24,16 +43,15 @@ $(document).ready(function () {
             data: JSON.stringify({ producto_id: productoId }),
             success: function (data) {
                 if (data.mensaje) {
-                    alert(data.mensaje);
-                    location.reload(); // Recargar la página para reflejar los cambios
+                    mostrarModalCompra(data.mensaje, '¡Éxito!', true);
                 }
             },
             error: function (xhr) {
                 const response = xhr.responseJSON;
                 if (response && response.error) {
-                    alert(response.error); // Mostrar el mensaje de error
+                    mostrarModalCompra(response.error, 'Error');
                 } else {
-                    alert('Ocurrió un error al agregar el juego al carrito.');
+                    mostrarModalCompra('Ocurrió un error al agregar el juego al carrito.', 'Error');
                 }
             }
         });
