@@ -153,22 +153,22 @@ def mostrar_supervivencia(request):
     juegos = Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0).select_related('plataforma')
     return render(request, 'supervivencia.html', {'juegos': juegos})
 
+
 # Mostrar 1 juego de cada categoría en la página de inicio
 def mostrar_juegos_inicio(request):
-    # Filtrar juegos por la categoría "Terror" y con cantidad disponible mayor a 0
-    juegos_terror = Juego.objects.filter(categoria__nombre_categoria='Terror', cantidad_disponible__gt=0)[:1]
-    # Filtrar juegos por la categoría "Acción" y con cantidad disponible mayor a 0
-    juegos_accion = Juego.objects.filter(categoria__nombre_categoria='Acción', cantidad_disponible__gt=0)[:1]
-    # Filtrar juegos por la categoría "Mundo Abierto" y con cantidad disponible mayor a 0
-    juegos_mundo_abierto = Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto', cantidad_disponible__gt=0)[:1]
-    # Filtrar juegos por la categoría "Supervivencia" y con cantidad disponible mayor a 0
-    juegos_supervivencia = Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0)[:1]
+    juegos_terror = list(Juego.objects.filter(categoria__nombre_categoria='Terror', cantidad_disponible__gt=0)[:1])
+    juegos_accion = list(Juego.objects.filter(categoria__nombre_categoria='Acción', cantidad_disponible__gt=0)[:1])
+    juegos_mundo_abierto = list(Juego.objects.filter(categoria__nombre_categoria='Mundo Abierto', cantidad_disponible__gt=0)[:1])
+    juegos_supervivencia = list(Juego.objects.filter(categoria__nombre_categoria='Supervivencia', cantidad_disponible__gt=0)[:1])
+
+    # Unir todas las listas
+    juegos_todos = juegos_terror + juegos_accion + juegos_mundo_abierto + juegos_supervivencia
+
+    # Agrupar de a 2
+    juegos_pares = [juegos_todos[i:i+2] for i in range(0, len(juegos_todos), 2)]
 
     return render(request, 'index.html', {
-        'juegos_terror': juegos_terror,
-        'juegos_accion': juegos_accion,
-        'juegos_mundo_abierto': juegos_mundo_abierto,
-        'juegos_supervivencia': juegos_supervivencia,
+        'juegos_pares': juegos_pares,
     })
 
 

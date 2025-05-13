@@ -12,88 +12,13 @@
     <link rel="icon" href="{% static 'imagenes/nova_icono.ico' %}">
 </head>
 
-
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a href="{% url 'inicio' %}">
-                <img src="{% static 'imagenes/logo_nova_shift_black_background.png' %}" width="80px" alt="">
-            </a>
-            <a class="navbar-brand" href="{% url 'inicio' %}">Nova Shift</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'terror' %}">Terror</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accion' %}">Acción</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'mundo_abierto' %}">Mundo Abierto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'free_to_play' %}">Free to Play</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'supervivencia' %}">Supervivencia</a>
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% include 'includes/buscar_form.html' %}
-                    {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'administrador' %}">
-                            {% include 'includes/database_gear_icon.html' %}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if conectado_rol_id == 2 %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'mis_compras' %}">
-                            {% include 'includes/controller_icon.html' %}
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'checkout' %}">
-                            {% include 'includes/cart_icon.html' %}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if conectado_alias %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'perfil' %}">
-                            {% include 'includes/profile_icon.html' %}
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'mostrar_api_nova' %}">
-                            <img src="{% static 'imagenes/api.png' %}" width="40px" height="40px" fill="red" class="bi bi-person" viewBox="0 0 16 16">
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'desconectarse' %}" class="btn btn-outline-danger">Salir</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'login' %}" class="btn btn-outline-warning">Start</a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'registro' %}" class="btn btn-outline-info">Regístrate</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {% include 'includes/nav_bar.html' %}
     <div class="background-image"></div>
     <header>
+        <br>
+        <br>
+        <br>
         <img src="{% static 'imagenes/nova_header.jpg' %}" alt="Header Image" class="header-image">
     </header>
 
@@ -103,72 +28,55 @@
     </div>
 
     <div class="container text-center my-5">
-        <h4>Ofertas</h4>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
-            {% for juego in juegos_terror %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
-                        style="object-fit: contain; height: 400px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
-                        <p class="card-text">{{ juego.descripcion }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
-                        <h3>${{ juego.precio }}</h3>
-                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
+        <h2 class="text-center mb-4 respiracion_neon">Juegos en Oferta</h2>
+            <div id="carouselDestacados" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for par in juegos_pares %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row justify-content-center">
+                            <!-- Primer juego: siempre visible -->
+                            <div class="col-12 col-md-6 d-flex justify-content-center mb-3 mb-md-0">
+                                <div class="card" style="width: 22rem;">
+                                    <img src="{{ par.0.imagen }}" class="card-img-top" alt="{{ par.0.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ par.0.nombre_juego }}</h5>
+                                        <p class="card-text">{{ par.0.descripcion|truncatewords:20 }}</p>
+                                        <p class="card-text"><strong>Plataforma:</strong> {{ par.0.plataforma.nombre_plataforma }}</p>
+                                        <h4>${{ par.0.precio }}</h4>
+                                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ par.0.id_juego }}">Comprar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Segundo juego: solo visible en PC -->
+                            {% if par|length > 1 %}
+                            <div class="col-12 col-md-6 d-none d-md-flex justify-content-center mb-3 mb-md-0">
+                                <div class="card" style="width: 22rem;">
+                                    <img src="{{ par.1.imagen }}" class="card-img-top" alt="{{ par.1.nombre_juego }}" style="object-fit: contain; height: 400px;">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ par.1.nombre_juego }}</h5>
+                                        <p class="card-text">{{ par.1.descripcion|truncatewords:20 }}</p>
+                                        <p class="card-text"><strong>Plataforma:</strong> {{ par.1.plataforma.nombre_plataforma }}</p>
+                                        <h4>${{ par.1.precio }}</h4>
+                                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ par.1.id_juego }}">Comprar</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
+                <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            {% endfor %}
-            {% for juego in juegos_accion %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
-                        style="object-fit: contain; height: 400px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
-                        <p class="card-text">{{ juego.descripcion }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
-                        <h3>${{ juego.precio }}</h3>
-                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            {% for juego in juegos_mundo_abierto %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
-                        style="object-fit: contain; height: 400px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
-                        <p class="card-text">{{ juego.descripcion }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
-                        <h3>${{ juego.precio }}</h3>
-                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            {% for juego in juegos_supervivencia %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}"
-                        style="object-fit: contain; height: 400px;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
-                        <p class="card-text">{{ juego.descripcion }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
-                        <h3>${{ juego.precio }}</h3>
-                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
-
-
 
     <footer>
         <div>

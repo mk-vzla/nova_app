@@ -21,85 +21,11 @@
 </button>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a href="{% url 'inicio' %}">
-                <img src="{% static 'imagenes/logo_nova_shift_black_background.png' %}" width="80px" alt="">
-            </a>
-            <a class="navbar-brand" href="{% url 'inicio' %}">Nova Shift</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'terror' %}">Terror</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accion' %}">Acción</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'mundo_abierto' %}">Mundo Abierto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'free_to_play' %}">Free to Play</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'supervivencia' %}">Supervivencia</a>
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% include 'includes/buscar_form.html' %}
-                    {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'administrador' %}">
-                            {% include 'includes/database_gear_icon.html' %}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if conectado_rol_id == 2 %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'mis_compras' %}">
-                            {% include 'includes/controller_icon.html' %}
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'checkout' %}">
-                            {% include 'includes/cart_icon.html' %}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if conectado_alias %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'perfil' %}">
-                            {% include 'includes/profile_icon.html' %}
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'mostrar_api_nova' %}">
-                            <img src="{% static 'imagenes/api.png' %}" width="40px" height="40px" fill="red" class="bi bi-person" viewBox="0 0 16 16">
-                        </a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'desconectarse' %}" class="btn btn-outline-danger">Salir</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'login' %}" class="btn btn-outline-warning">Start</a>
-                    </li>
-                    <li class="nav-item separar_Vert">
-                        <a href="{% url 'registro' %}" class="btn btn-outline-info">Regístrate</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {% include 'includes/nav_bar.html' %}
     <header>
+        <br>
+        <br>
+        <br>
         <h4>Administración</h4>
     </header>
     {% if conectado_rol_id == 1 or conectado_rol_id == 3 %}

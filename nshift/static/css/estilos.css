@@ -197,3 +197,119 @@ table img:hover {
     z-index: 10; 
     position: relative; 
 }
+
+
+
+/* carrusel */
+
+.custom-carousel-btn {
+    position: absolute;
+    width: 50px !important;
+    height: 300px !important;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.carousel-control-prev.custom-carousel-btn {
+    left: 0;
+}
+
+.carousel-control-next.custom-carousel-btn {
+    right: 0;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-size: 100% 100%;
+}
+
+
+
+/* Navbar */
+.navbar {
+    background-color: #470486 !important; /* Púrpura oscuro */
+    background-image: none !important;
+}
+
+.navbar.fixed-top {
+    transition: padding 0.3s, height 0.3s, width 0.3s;
+    height: 80px;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.navbar.fixed-top .navbar-brand,
+.navbar.fixed-top img {
+    transition: height 0.3s, width 0.3s;
+}
+
+.navbar.fixed-top img {
+    height: 60px;
+    width: 80px;
+}
+
+.navbar.fixed-top.navbar-shrink img {
+    height: 35px;
+    width: 50px;
+}
+
+/* Fondo sólido púrpura oscuro para el menú hamburguesa */
+.navbar .navbar-collapse,
+.navbar .offcanvas,
+.navbar .dropdown-menu {
+    background-color: #470486 !important; /* Púrpura oscuro */
+    background-image: none !important;
+}
+
+/* Íconos de la derecha en navbar: horizontales en móvil (hamburguesa) */
+@media (max-width: 991.98px) {
+    .navbar .navbar-collapse .navbar-nav.ms-auto {
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .navbar .navbar-collapse .navbar-nav.ms-auto .nav-item {
+        margin-bottom: 0 !important;
+    }
+}
+
+
+/* Ofertas */
+
+.respiracion_neon {
+    font-weight: bold;
+    font-size: calc(2rem + 2px);
+    color: #a259ff;
+    text-shadow:
+        0 0 24px #a259ff,
+        0 0 48px #a259ff,
+        0 0 72px #a259ff;
+    animation: neon-breath-text 5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-breath-text {
+    0% {
+        color: #a259ff;
+        text-shadow:
+            0 0 24px #a259ff,
+            0 0 48px #a259ff,
+            0 0 72px #a259ff;
+    }
+    100% {
+        color: #222; /* casi negro, pero no puro para mejor blending */
+        text-shadow:
+            0 0 2px #000,
+            0 0 4px #000,
+            0 0 8px #000;
+    }
+}
