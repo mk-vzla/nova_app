@@ -27,39 +27,39 @@
 
     <div class="container text-center my-5">
         <h2 class="mb-4 respiracion_neon">🥳¡Ofertas!🎉</span></h2>
-        {# CAROUSEL DESKTOP: 2 cards por slide (md en adelante) #}
-        <div id="carouselDesktop" class="carousel slide d-none d-md-block" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {% for pareja in juegos_pares %}
-                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <div class="row justify-content-center">
-                        {% for juego in pareja %}
-                        <div class="col-6 d-flex justify-content-center">
-                            <div class="card">
-                                <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 350px;">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">{{ juego.nombre_juego }}</h5>
-                                    <p class="card-text">{{ juego.descripcion|truncatewords:15 }}</p>
-                                    <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
-                                    <h4>${{ juego.precio }}</h4>
-                                    <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
+            {# CAROUSEL DESKTOP: 2 cards por slide (md en adelante) #}
+            <div id="carouselDesktop" class="carousel slide d-none d-md-block" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for pareja in juegos_pares %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row justify-content-center">
+                            {% for juego in pareja %}
+                            <div class="col-6 d-flex justify-content-center">
+                                <div class="card">
+                                    <img src="{{ juego.imagen }}" class="card-img-top" alt="{{ juego.nombre_juego }}" style="object-fit: contain; height: 350px;">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ juego.nombre_juego }}</h5>
+                                        <p class="card-text">{{ juego.descripcion|truncatewords:15 }}</p>
+                                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma.nombre_plataforma }}</p>
+                                        <h4>${{ juego.precio }}</h4>
+                                        <a href="#" class="btn btn-primary btn-comprar" data-producto-id="{{ juego.id_juego }}">Comprar</a>
+                                    </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDesktop" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDesktop" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            <button class="carousel-control-prev custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next custom-carousel-btn d-none d-md-flex" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
         {# CAROUSEL MOBILE: 1 card por slide (sm hacia abajo) #}
         <div id="carouselMobile" class="carousel slide d-block d-md-none" data-bs-ride="carousel">
             <div class="carousel-inner">
